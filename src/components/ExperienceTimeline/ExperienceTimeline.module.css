@@ -1,0 +1,603 @@
+.timelineSection {
+  position: relative;
+  background-color: #050816;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(232, 101, 42, 0.05) 0%, transparent 60%),
+    linear-gradient(to bottom, var(--dark) 0%, #050816 20%, #030510 100%),
+    radial-gradient(circle at 10% 20%, rgba(185, 43, 226, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.03) 0%, transparent 40%);
+  padding: 8rem 0;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Background Ambient Glows */
+.bgGlowPurple {
+  position: absolute;
+  top: 30%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(185, 43, 226, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgGlowCyan {
+  position: absolute;
+  bottom: 20%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Section */
+.headerBlock {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: #00f2fe;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  background: rgba(0, 242, 254, 0.04);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(240, 232, 216, 0.7);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Theme Configurations */
+.cyanTheme {
+  --theme-neon: #00f2fe;
+  --theme-neon-glow: rgba(0, 242, 254, 0.15);
+  --theme-track-glow: rgba(0, 242, 254, 0.3);
+}
+
+.purpleTheme {
+  --theme-neon: #b92be2;
+  --theme-neon-glow: rgba(185, 43, 226, 0.15);
+  --theme-track-glow: rgba(185, 43, 226, 0.3);
+}
+
+.blueTheme {
+  --theme-neon: #0066ff;
+  --theme-neon-glow: rgba(0, 102, 255, 0.15);
+  --theme-track-glow: rgba(0, 102, 255, 0.3);
+}
+
+/* Roadmap Grid */
+.roadmap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rowVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card Alignments */
+.leftRow .cardContainer {
+  grid-column: 1;
+  justify-self: end;
+  margin-right: 80px;
+}
+
+.rightRow .cardContainer {
+  grid-column: 3;
+  justify-self: start;
+  margin-left: 80px;
+}
+
+/* Card Styling */
+.cardContainer {
+  width: 100%;
+  max-width: 520px;
+  z-index: 2;
+}
+
+.card {
+  background: rgba(10, 15, 30, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 2.2rem;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 50%, rgba(255, 255, 255, 0.02));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: rgba(12, 20, 40, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.45), 
+    0 0 25px var(--theme-neon-glow), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.card:hover .cardBorderGlow {
+  background: linear-gradient(135deg, var(--theme-neon), transparent 60%, var(--theme-neon));
+}
+
+/* Card Content Structure */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.4rem;
+  position: relative;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-neon);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.iconSvg {
+  width: 24px;
+  height: 24px;
+}
+
+.card:hover .iconWrapper {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 15px var(--theme-neon-glow);
+  transform: scale(1.05);
+}
+
+.titleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex-grow: 1;
+}
+
+.cardRole {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.cardCompany {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba(240, 232, 216, 0.6);
+}
+
+.cardDuration {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--theme-neon);
+  background: var(--theme-neon-glow);
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(240, 232, 216, 0.7);
+  margin-bottom: 1.5rem;
+}
+
+/* Achievements Block */
+.achievementsBlock {
+  margin-bottom: 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 1.2rem;
+}
+
+.blockTitle {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--theme-neon);
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.achievementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.achItem {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(240, 232, 216, 0.65);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.bullet {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--theme-neon);
+  margin-top: 0.45rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--theme-neon);
+}
+
+/* Technology Stack Badges */
+.badgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 1.2rem;
+}
+
+.techPill {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: rgba(240, 232, 216, 0.6);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.card:hover .techPill {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(240, 232, 216, 0.8);
+}
+
+.techPill:hover {
+  border-color: var(--theme-neon) !important;
+  color: var(--cream) !important;
+  background: var(--theme-neon-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Timeline Node Column */
+.nodeColumn {
+  grid-column: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.verticalTrack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.verticalTrack::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--theme-neon) 50%, transparent);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.rowVisible .verticalTrack::after {
+  opacity: 0.6;
+  animation: drawTrack 4s linear infinite;
+}
+
+@keyframes drawTrack {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.nodeWrapper {
+  position: absolute;
+  top: 50px; /* Align horizontally with the card header / icon level */
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nodeCircle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #050816;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.nodeInner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pulseRing {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--theme-neon);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Node States when Active/Visible */
+.rowVisible .nodeCircle {
+  border-color: var(--theme-neon);
+  box-shadow: 0 0 15px var(--theme-neon);
+}
+
+.rowVisible .nodeInner {
+  background: var(--theme-neon);
+  box-shadow: 0 0 10px var(--theme-neon);
+}
+
+.rowVisible .pulseRing {
+  animation: pulseRing 2s cubic-bezier(0.25, 0, 0, 1) infinite;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Connector Paths */
+.connectorContainer {
+  position: absolute;
+  width: 120px;
+  height: 80px;
+  top: 50px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.leftRow .connectorContainer {
+  right: 50%;
+  margin-right: 0px;
+}
+
+.rightRow .connectorContainer {
+  left: 50%;
+  margin-left: 0px;
+}
+
+.connectorSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dottedPath {
+  stroke-dasharray: 6 6;
+  stroke-dashoffset: 120;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.rowVisible .dottedPath {
+  stroke-dashoffset: 0;
+}
+
+/* ── Responsive Styling ── */
+@media (max-width: 900px) {
+  .timelineSection {
+    padding: 6rem 0;
+  }
+
+  .roadmap {
+    gap: 3.5rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    padding-left: 50px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .leftRow .cardContainer,
+  .rightRow .cardContainer {
+    grid-column: 1;
+    justify-self: start;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  /* Relocate node column to the left border */
+  .row .nodeColumn {
+    grid-column: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+  }
+
+  .verticalTrack {
+    left: 20px;
+  }
+
+  .nodeWrapper {
+    left: 20px;
+    top: 45px;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Hide custom SVG S-curve connector and replace with simpler dashed link */
+  .connectorContainer {
+    display: none;
+  }
+
+  .card {
+    padding: 1.6rem;
+    border-radius: 20px;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 45px;
+    left: -30px;
+    width: 30px;
+    height: 1px;
+    border-top: 2px dashed var(--theme-neon);
+    opacity: 0;
+    transition: opacity 0.8s ease 0.3s;
+    pointer-events: none;
+  }
+
+  .rowVisible .card::before {
+    opacity: 0.45;
+  }
+
+  .cardHeader {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .cardDuration {
+    order: 3;
+    width: fit-content;
+  }
+
+  .titleInfo {
+    width: 100%;
+  }
+}

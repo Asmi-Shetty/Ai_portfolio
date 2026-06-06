@@ -1,0 +1,376 @@
+.main {
+  min-height: 100vh;
+  background: var(--dark);
+}
+
+/* ── Deck Scrolling Section ── */
+.deckSection {
+  height: 200vh; /* Snappy scroll room for 3 cards */
+  background: var(--dark);
+  position: relative;
+}
+
+.deckSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(232, 101, 42, 0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 80% 30%, rgba(58, 140, 223, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.deckInner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Card Stack Container ── */
+.cardStack {
+  position: relative;
+  width: 100%;
+  height: clamp(600px, 82vh, 820px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Card Wrapper (Absolute Overlay) ── */
+.cardWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* ── Card Styling ── */
+.card {
+  background: rgba(18, 16, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(240, 232, 216, 0.1);
+  border-radius: 20px;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+  position: relative;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.card::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.card:hover {
+  background-color: rgba(22, 20, 18, 0.85);
+  border-color: rgba(232, 101, 42, 0.45);
+  box-shadow: 0 40px 80px rgba(232, 101, 42, 0.08), 0 25px 50px rgba(0, 0, 0, 0.6);
+  transform: scale(1.02);
+}
+
+/* Card Header */
+.cardHeader {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: clamp(0.6rem, 1.2vh, 1rem);
+  opacity: 0.8;
+}
+
+/* Card Title */
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+  color: var(--cream);
+  margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 40px rgba(232, 101, 42, 0.05);
+}
+
+/* Card Content / Paragraph */
+.cardBody {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(240, 232, 216, 0.7);
+  max-width: 900px;
+  margin-bottom: clamp(2rem, 4vh, 3rem);
+}
+
+.cardBody em {
+  font-style: italic;
+  color: var(--orange-warm);
+  font-weight: 500;
+}
+
+/* Badges / Pill Tags */
+.badgeContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.badge {
+  font-family: var(--font-body);
+  font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: rgba(240, 232, 216, 0.6);
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(240, 232, 216, 0.15);
+  border-radius: 100px;
+  text-transform: uppercase;
+  background: rgba(240, 232, 216, 0.02);
+  transition: all 0.3s ease;
+}
+
+.card:hover .badge {
+  border-color: rgba(240, 232, 216, 0.25);
+  color: rgba(240, 232, 216, 0.85);
+}
+
+.badge:hover {
+  border-color: var(--orange) !important;
+  color: var(--cream) !important;
+  background: rgba(232, 101, 42, 0.08);
+}
+
+/* Outline indicators on the right (02, 03) */
+.outlineNumber {
+  position: absolute;
+  right: clamp(2rem, 4vw, 3.5rem);
+  top: clamp(2rem, 4vw, 3.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(240, 232, 216, 0.12);
+  user-select: none;
+  transition: -webkit-text-stroke 0.4s ease;
+}
+
+.card:hover .outlineNumber {
+  -webkit-text-stroke: 1px rgba(232, 101, 42, 0.35);
+}
+
+/* ── Skills Matrix (Card 2) ── */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.skillsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.skillsCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.skillsLabel {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--orange-warm);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(232, 101, 42, 0.15);
+  padding-bottom: 0.4rem;
+  width: fit-content;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.skillPill {
+  font-family: var(--font-body);
+  font-size: clamp(0.55rem, 1vw, 0.65rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: rgba(240, 232, 216, 0.7);
+  background: rgba(240, 232, 216, 0.03);
+  border: 1px solid rgba(240, 232, 216, 0.08);
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.skillPill:hover {
+  border-color: var(--orange);
+  color: var(--cream);
+  background: rgba(232, 101, 42, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ── Education Journey Timeline (Card 3) ── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: relative;
+  padding-left: 0.5rem;
+}
+
+.educationItem {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.educationDate {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--orange-warm);
+  position: relative;
+  padding-right: 1.5rem;
+  border-right: 1px solid rgba(240, 232, 216, 0.15);
+}
+
+.educationDate::after {
+  content: '';
+  position: absolute;
+  right: -4.5px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 10px var(--orange);
+}
+
+.educationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.educationDegree {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: var(--cream);
+}
+
+.educationSchool {
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  color: rgba(240, 232, 216, 0.5);
+  font-style: italic;
+}
+
+.educationGpa {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--orange);
+  letter-spacing: 0.05em;
+  margin-top: 0.2rem;
+}
+
+/* Responsive Stacking & Layout */
+@media (max-width: 900px) {
+  .skillsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cardStack {
+    height: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardStack {
+    height: 950px;
+  }
+  
+  .card {
+    padding: 1.5rem 1.2rem;
+  }
+  
+  .deckSection {
+    height: 250vh;
+  }
+  
+  .outlineNumber {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .cardStack {
+    height: 1200px;
+  }
+  .skillsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .educationItem {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .educationDate {
+    border-right: none;
+    border-bottom: 1px solid rgba(240, 232, 216, 0.1);
+    padding-bottom: 0.4rem;
+    padding-right: 0;
+    width: fit-content;
+  }
+  
+  .educationDate::after {
+    display: none;
+  }
+}

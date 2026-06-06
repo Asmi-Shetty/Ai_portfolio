@@ -1,0 +1,52 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --orange: #e8652a;
+  --orange-warm: #f5893a;
+  --orange-glow: rgba(232, 101, 42, 0.4);
+  --blue-monitor: #3a8cdf;
+  --cream: #f0e8d8;
+  --dark: #080706;
+  --dark-mid: #0e0c0a;
+  --glass-bg: rgba(10, 8, 6, 0.45);
+  --glass-border: rgba(240, 232, 216, 0.12);
+  --glass-blur: 20px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--dark);
+  color: var(--cream);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--orange);
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--orange);
+  color: var(--dark);
+}

@@ -1,0 +1,407 @@
+.projectSection {
+  position: relative;
+  background-color: var(--dark);
+  background-image: 
+    radial-gradient(circle at 80% 30%, rgba(58, 140, 223, 0.03) 0%, transparent 45%),
+    radial-gradient(circle at 20% 70%, rgba(232, 101, 42, 0.03) 0%, transparent 45%);
+  padding: 0 0 7rem 0;
+  margin-top: -32rem;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Background Glowing Orbs */
+.bgGlowOrange {
+  position: absolute;
+  top: 20%;
+  left: -15%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 101, 42, 0.06) 0%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgGlowBlue {
+  position: absolute;
+  bottom: 20%;
+  right: -15%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(58, 140, 223, 0.06) 0%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Section */
+.headerBlock {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--orange);
+  border: 1px solid rgba(232, 101, 42, 0.3);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  background: rgba(232, 101, 42, 0.04);
+  box-shadow: 0 0 15px rgba(232, 101, 42, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(240, 232, 216, 0.7);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* 3D Cover Flow Carousel Container */
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  margin-top: 2rem;
+}
+
+.carouselTrack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+/* Card Wrap absolute overlays */
+.cardWrapper {
+  position: absolute;
+  width: 330px;
+  height: 330px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  touch-action: pan-y; /* Prevent vertical page scroll during horizontal swipe drag */
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 18, 16, 0.8);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  transform: translateZ(0);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cardWrapper:hover .card {
+  border-color: rgba(232, 101, 42, 0.4);
+  box-shadow: 0 25px 55px rgba(232, 101, 42, 0.08), 0 20px 45px rgba(0, 0, 0, 0.55);
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cardWrapper:hover .cardImg {
+  transform: scale(1.06);
+}
+
+/* Slide footer */
+.cardFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.2rem 1.6rem 1.6rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.cardWrapper:hover .cardFooter {
+  opacity: 0;
+}
+
+.projectTitle {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+
+.projectSubtitle {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: rgba(240, 232, 216, 0.65);
+}
+
+/* ── Description Overlay Popup on Hover ── */
+.popupOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 11, 20, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 3;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popupVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popupBorderGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--orange), transparent 50%, var(--orange));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.popupContent {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.popupTitle {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.2rem;
+}
+
+.popupSubtitle {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--orange-warm);
+  margin-bottom: 1rem;
+}
+
+.popupDesc {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(240, 232, 216, 0.75);
+  margin-bottom: 1.2rem;
+}
+
+/* Tech Pills List */
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.techPill {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(240, 232, 216, 0.6);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.25rem 0.55rem;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.techPill:hover {
+  border-color: var(--orange) !important;
+  color: var(--cream) !important;
+  background: rgba(232, 101, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Navigation Controls */
+.navBtn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(18, 16, 15, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+  cursor: pointer;
+  z-index: 15;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navBtn:hover {
+  background: rgba(232, 101, 42, 0.1);
+  border-color: var(--orange);
+  color: var(--orange);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(232, 101, 42, 0.2);
+}
+
+.prevBtn {
+  left: 5%;
+}
+
+.nextBtn {
+  right: 5%;
+}
+
+/* Dots Navigator */
+.dotsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 3.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(240, 232, 216, 0.25);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.4s ease;
+}
+
+.activeDot {
+  width: 24px;
+  border-radius: 100px;
+  background: var(--orange);
+  box-shadow: 0 0 10px rgba(232, 101, 42, 0.4);
+}
+
+/* ── Responsive Styling ── */
+@media (max-width: 900px) {
+  .carouselContainer {
+    height: 400px;
+  }
+
+  .cardWrapper {
+    width: 280px;
+    height: 280px;
+  }
+
+  .prevBtn {
+    left: 2%;
+  }
+
+  .nextBtn {
+    right: 2%;
+  }
+}
+
+@media (max-width: 768px) {
+  .projectSection {
+    padding: 6rem 0;
+  }
+
+  /* Flatten structure slightly and use horizontal touch scrolling track on mobile */
+  .carouselContainer {
+    height: auto;
+    perspective: none;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 1.5rem 1rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carouselContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carouselTrack {
+    display: flex;
+    position: relative;
+    width: max-content;
+    height: auto;
+    gap: 1.5rem;
+    transform-style: flat;
+  }
+
+  .cardWrapper {
+    position: relative;
+    width: 270px;
+    height: 270px;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    flex-shrink: 0;
+  }
+
+  .navBtn {
+    display: none; /* Hide arrows on touch screens */
+  }
+
+  .dotsContainer {
+    margin-top: 2rem;
+  }
+}
