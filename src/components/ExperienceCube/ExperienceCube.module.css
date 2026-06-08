@@ -1,0 +1,617 @@
+.experienceSection {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cubeWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1500px;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Three.js background canvas */
+.canvasContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Center HUD UI Overlay */
+.hudOverlay {
+  position: absolute;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+  text-align: center;
+}
+
+.hudHeader {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+}
+
+.hudTitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 54px;
+  color: var(--cream);
+  line-height: 1.1;
+  text-shadow: 0 0 35px rgba(232, 101, 42, 0.15);
+  margin: 0;
+  text-transform: none;
+  font-weight: 300;
+}
+
+.hudSubtitle {
+  font-size: 13px;
+  color: rgba(240, 232, 216, 0.5);
+  margin-top: 10px;
+  max-width: 400px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.dragTip {
+  position: absolute;
+  bottom: 40px;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240, 232, 216, 0.4);
+  z-index: 10;
+  pointer-events: none;
+  animation: pulseTip 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes pulseTip {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-4px); }
+}
+
+/* 3D Scene Container */
+.scene3D {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  cursor: grab;
+}
+
+.scene3D:active {
+  cursor: grabbing;
+}
+
+.cube3D {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Cube Faces */
+.cubeFace {
+  position: absolute;
+  width: 320px;
+  height: 380px;
+  left: 40px;
+  top: 10px;
+  background: rgba(8, 8, 10, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  pointer-events: auto;
+  backface-visibility: visible;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Placement of Cube Faces */
+.faceFront { transform: rotateY(0deg) translateZ(280px); }
+.faceRight { transform: rotateY(90deg) translateZ(280px); }
+.faceBack { transform: rotateY(180deg) translateZ(280px); }
+.faceLeft { transform: rotateY(270deg) translateZ(280px); }
+.faceTop { transform: rotateX(90deg) translateZ(280px); }
+.faceBottom { transform: rotateX(-90deg) translateZ(280px); }
+
+/* Hover Expansion Exploded View */
+.faceFront:hover { transform: rotateY(0deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+.faceRight:hover { transform: rotateY(90deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+.faceBack:hover { transform: rotateY(180deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+.faceLeft:hover { transform: rotateY(270deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+.faceTop:hover { transform: rotateX(90deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+.faceBottom:hover { transform: rotateX(-90deg) translateZ(340px) scale(1.03); background-color: rgba(12, 12, 15, 0.7); }
+
+/* Theme Accents */
+.themeCyan {
+  border-color: rgba(0, 242, 254, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 242, 254, 0.03);
+  --color-glow: #00f2fe;
+}
+.themeCyan:hover {
+  border-color: rgba(0, 242, 254, 0.7);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 242, 254, 0.25);
+}
+
+.themeEmerald {
+  border-color: rgba(5, 255, 196, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(5, 255, 196, 0.03);
+  --color-glow: #05ffc4;
+}
+.themeEmerald:hover {
+  border-color: rgba(5, 255, 196, 0.7);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(5, 255, 196, 0.25);
+}
+
+.themeBlue {
+  border-color: rgba(0, 112, 243, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 112, 243, 0.03);
+  --color-glow: #0070f3;
+}
+.themeBlue:hover {
+  border-color: rgba(0, 112, 243, 0.7);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 112, 243, 0.25);
+}
+
+.themeGold {
+  border-color: rgba(255, 180, 80, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 180, 80, 0.03);
+  --color-glow: #ffb450;
+}
+.themeGold:hover {
+  border-color: rgba(255, 180, 80, 0.7);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 180, 80, 0.25);
+}
+
+.themeOrange {
+  border-color: rgba(232, 101, 42, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(232, 101, 42, 0.03);
+  --color-glow: #e8652a;
+}
+.themeOrange:hover {
+  border-color: rgba(232, 101, 42, 0.7);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(232, 101, 42, 0.25);
+}
+
+.themeHolo {
+  border-color: rgba(240, 232, 216, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(240, 232, 216, 0.02);
+  --color-glow: #f0e8d8;
+}
+.themeHolo:hover {
+  border-color: rgba(240, 232, 216, 0.6);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(240, 232, 216, 0.15);
+}
+
+/* Sweeping Scanner laser line */
+.scannerLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-glow, #00f2fe), transparent);
+  animation: sweep 4s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes sweep {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+/* Holographic Grid pattern overlay inside card */
+.faceGrid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+/* Card Content Styling */
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.statusIndicator {
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.indicatorActive {
+  color: var(--color-glow, #00f2fe);
+  border-color: rgba(var(--color-glow, #00f2fe), 0.2);
+  text-shadow: 0 0 4px var(--color-glow, #00f2fe);
+}
+
+.cardMid {
+  margin-top: 15px;
+  z-index: 2;
+}
+
+.roleTitle {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.companyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.companyName {
+  font-size: 14px;
+  color: var(--color-glow, #00f2fe);
+  font-weight: 500;
+}
+
+.duration {
+  font-size: 11px;
+  color: rgba(240, 232, 216, 0.45);
+  font-family: monospace;
+}
+
+.description {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(240, 232, 216, 0.65);
+  margin-top: 12px;
+  font-style: italic;
+}
+
+.cardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
+}
+
+.techContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techPill {
+  font-size: 9px;
+  font-family: monospace;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  color: rgba(240, 232, 216, 0.75);
+}
+
+.actionButton {
+  background: rgba(var(--color-glow, #00f2fe), 0.08);
+  border: 1px solid rgba(var(--color-glow, #00f2fe), 0.25);
+  color: #ffffff;
+  padding: 8px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.cubeFace:hover .actionButton {
+  background: var(--color-glow, #00f2fe);
+  color: #000000;
+  box-shadow: 0 0 15px var(--color-glow, #00f2fe);
+  border-color: var(--color-glow, #00f2fe);
+}
+
+/* DIAGNOSTIC OVERLAY MODAL */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 3, 3, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(10, 10, 12, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+.modalTitleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modalTitle {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: 13px;
+  color: var(--color-glow, #00f2fe);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(240, 232, 216, 0.6);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.modalBody {
+  padding: 28px;
+  overflow-y: auto;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  scrollbar-width: thin;
+}
+
+.modalBody::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modalBody::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+.modalSectionTitle {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-glow, #00f2fe);
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.achievementsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievementItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.bulletDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-glow, #00f2fe);
+  margin-top: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--color-glow, #00f2fe);
+}
+
+.achievementText {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(240, 232, 216, 0.8);
+}
+
+/* Telemetry Grid (System Face 6 Details) */
+.telemetryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.telemetryBox {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.telemetryLabel {
+  font-size: 10px;
+  color: rgba(240, 232, 216, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: monospace;
+}
+
+.telemetryValue {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 6px;
+  font-family: monospace;
+}
+
+.telemetryBarOuter {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.telemetryBarInner {
+  height: 100%;
+  background: var(--color-glow, #00f2fe);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--color-glow, #00f2fe);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .scene3D {
+    transform: scale(0.85);
+  }
+  .hudTitle {
+    font-size: 32px;
+  }
+  .hudSubtitle {
+    font-size: 11px;
+    max-width: 300px;
+  }
+  .cubeFace {
+    width: 280px;
+    height: 350px;
+    left: 60px;
+    top: 25px;
+    padding: 18px;
+  }
+  /* Shorten translateZ for mobile to avoid card cropping */
+  .faceFront { transform: rotateY(0deg) translateZ(230px); }
+  .faceRight { transform: rotateY(90deg) translateZ(230px); }
+  .faceBack { transform: rotateY(180deg) translateZ(230px); }
+  .faceLeft { transform: rotateY(270deg) translateZ(230px); }
+  .faceTop { transform: rotateX(90deg) translateZ(230px); }
+  .faceBottom { transform: rotateX(-90deg) translateZ(230px); }
+
+  .faceFront:hover { transform: rotateY(0deg) translateZ(260px) scale(1.02); }
+  .faceRight:hover { transform: rotateY(90deg) translateZ(260px) scale(1.02); }
+  .faceBack:hover { transform: rotateY(180deg) translateZ(260px) scale(1.02); }
+  .faceLeft:hover { transform: rotateY(270deg) translateZ(260px) scale(1.02); }
+  .faceTop:hover { transform: rotateX(90deg) translateZ(260px) scale(1.02); }
+  .faceBottom:hover { transform: rotateX(-90deg) translateZ(260px) scale(1.02); }
+}
+
+@media (max-width: 480px) {
+  .scene3D {
+    transform: scale(0.72);
+  }
+  .cubeFace {
+    width: 250px;
+    height: 330px;
+    left: 75px;
+    top: 35px;
+    padding: 14px;
+  }
+  .roleTitle {
+    font-size: 16px;
+  }
+  .companyName {
+    font-size: 12px;
+  }
+  .description {
+    font-size: 11px;
+  }
+  .logoContainer {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}

@@ -3,14 +3,35 @@
   background: var(--dark);
 }
 
-/* ── Deck Scrolling Section ── */
-.deckSection {
-  height: 200vh; /* Snappy scroll room for 3 cards */
-  background: var(--dark);
+.unifiedSection {
   position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--dark);
 }
 
-.deckSection::before {
+/* ── Deck Scrolling Section ── */
+.deckSection {
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  width: 100%;
+  background: transparent;
+}
+
+.stickyContainer {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  background: var(--dark);
+}
+
+.stickyContainer::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -18,17 +39,6 @@
               radial-gradient(ellipse 60% 40% at 80% 30%, rgba(58, 140, 223, 0.04) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
-}
-
-.stickyContainer {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  width: 100%;
 }
 
 .deckInner {

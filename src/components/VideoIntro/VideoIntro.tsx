@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
+import MagneticWrapper from "../CustomCursor/MagneticWrapper";
 import styles from "./VideoIntro.module.css";
 
 const CinematicLayer = dynamic(
@@ -10,11 +11,12 @@ const CinematicLayer = dynamic(
 
 interface VideoIntroProps {
   videoSrc: string;
+  startEntrance?: boolean;
 }
 
 const ROLES = ["AI DEVELOPER", "SOFTWARE DEVELOPER", "BLOCKCHAIN DEVELOPER"];
 
-const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
+const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
@@ -58,11 +60,14 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
           scrollRef.current
         ].filter(Boolean);
 
-        // Set initial states
+        // Set initial states immediately to avoid flash
         gsap.set(elements, { opacity: 0, y: 40 });
         if (sectionRef.current) {
           gsap.set(sectionRef.current, { opacity: 0 });
         }
+
+        // Early return if preloader is not complete
+        if (!startEntrance) return;
 
         // Staggered cinematic entrance
         tl = gsap.timeline({ delay: 0.3 });
@@ -126,7 +131,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
     return () => {
       tl?.kill();
     };
-  }, []);
+  }, [startEntrance]);
 
   // Auto-hide sound hint
   useEffect(() => {
@@ -248,10 +253,10 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
           </span>
 
           <div className={styles.nameBlock}>
-            <div ref={firstName} className={styles.nameFirst}>
+            <div ref={firstName} className={`${styles.nameFirst} spotlight-text`}>
               ASMI
             </div>
-            <div ref={lastName} className={styles.nameLast}>
+            <div ref={lastName} className={`${styles.nameLast} spotlight-text`}>
               <span className={styles.nameLastInner}>SHETTY</span>
               <span className={styles.nameDot} />
             </div>
@@ -266,42 +271,46 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
 
       {/* ── Controls ── */}
       <div className={styles.controls}>
-        <button
-          className={styles.controlBtn}
-          onClick={togglePlay}
-          aria-label={isPlaying ? "Pause video" : "Play video"}
-        >
-          {isPlaying ? (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor" />
-              <rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 1.5L12 7L3 12.5V1.5Z" fill="currentColor" />
-            </svg>
-          )}
-        </button>
+        <MagneticWrapper strength={0.35}>
+          <button
+            className={styles.controlBtn}
+            onClick={togglePlay}
+            aria-label={isPlaying ? "Pause video" : "Play video"}
+          >
+            {isPlaying ? (
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor" />
+                <rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor" />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 1.5L12 7L3 12.5V1.5Z" fill="currentColor" />
+              </svg>
+            )}
+          </button>
+        </MagneticWrapper>
 
-        <button
-          className={styles.controlBtn}
-          onClick={toggleMute}
-          aria-label={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? (
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-              <path d="M1 4.5H3.5L7 1.5V12.5L3.5 9.5H1V4.5Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
-              <line x1="10" y1="4" x2="15" y2="10" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="15" y1="4" x2="10" y2="10" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          ) : (
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-              <path d="M1 4.5H3.5L7 1.5V12.5L3.5 9.5H1V4.5Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
-              <path d="M9.5 3.5C11.2 4.7 12.3 6.2 12.3 7C12.3 7.8 11.2 9.3 9.5 10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-              <path d="M11 1C13.8 2.8 15.5 4.8 15.5 7C15.5 9.2 13.8 11.2 11 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-            </svg>
-          )}
-        </button>
+        <MagneticWrapper strength={0.35}>
+          <button
+            className={styles.controlBtn}
+            onClick={toggleMute}
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+                <path d="M1 4.5H3.5L7 1.5V12.5L3.5 9.5H1V4.5Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+                <line x1="10" y1="4" x2="15" y2="10" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="15" y1="4" x2="10" y2="10" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            ) : (
+              <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+                <path d="M1 4.5H3.5L7 1.5V12.5L3.5 9.5H1V4.5Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+                <path d="M9.5 3.5C11.2 4.7 12.3 6.2 12.3 7C12.3 7.8 11.2 9.3 9.5 10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+                <path d="M11 1C13.8 2.8 15.5 4.8 15.5 7C15.5 9.2 13.8 11.2 11 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+              </svg>
+            )}
+          </button>
+        </MagneticWrapper>
       </div>
 
       {/* ── Sound hint badge ── */}
@@ -311,17 +320,19 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc }) => {
       </div>
 
       {/* ── Scroll indicator ── */}
-      <button
-        ref={scrollRef}
-        className={styles.scrollIndicator}
-        onClick={scrollToWork}
-        aria-label="Scroll to work"
-      >
-        <span className={styles.scrollLabel}>Scroll</span>
-        <span className={styles.scrollLine}>
-          <span className={styles.scrollPulse} />
-        </span>
-      </button>
+      <MagneticWrapper range={180} strength={0.25}>
+        <button
+          ref={scrollRef}
+          className={styles.scrollIndicator}
+          onClick={scrollToWork}
+          aria-label="Scroll to work"
+        >
+          <span className={styles.scrollLabel}>Scroll</span>
+          <span className={styles.scrollLine}>
+            <span className={styles.scrollPulse} />
+          </span>
+        </button>
+      </MagneticWrapper>
     </section>
   );
 };

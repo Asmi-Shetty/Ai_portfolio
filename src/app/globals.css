@@ -21,7 +21,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   overflow-x: hidden;
 }
 
@@ -49,4 +49,22 @@ body {
 ::selection {
   background: var(--orange);
   color: var(--dark);
+}
+
+/* Apple-style dynamic radial gradient text spotlight */
+.spotlight-text {
+  background-image: radial-gradient(
+    circle 220px at var(--mouse-viewport-x, 0px) var(--mouse-viewport-y, 0px),
+    #ffffff 0%,
+    #d9b3ff 45%,
+    rgba(240, 232, 216, 0.25) 100%
+  ) !important;
+  background-attachment: fixed !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Hide native cursor globally when custom cursor is active */
+.custom-cursor-active, .custom-cursor-active * {
+  cursor: none !important;
 }

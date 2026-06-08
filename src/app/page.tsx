@@ -1,38 +1,107 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import VideoIntro from "@/components/VideoIntro/VideoIntro";
-import ProjectCarousel from "@/components/ProjectCarousel/ProjectCarousel";
-import ExperienceTimeline from "@/components/ExperienceTimeline/ExperienceTimeline";
+import ExperienceCube from "@/components/ExperienceCube/ExperienceCube";
+import TechUniverse from "@/components/TechUniverse/TechUniverse";
+import Work from "@/components/Work/Work";
+import MagneticWrapper from "@/components/CustomCursor/MagneticWrapper";
 import styles from "./page.module.css";
 
+// Dynamically import client-only interactive elements to resolve hydration mismatch errors
+const Preloader = dynamic(() => import("@/components/Preloader/Preloader"), { ssr: false });
+const SocialDock = dynamic(() => import("@/components/SocialDock/SocialDock"), { ssr: false });
+const CustomCursor = dynamic(() => import("@/components/CustomCursor/CustomCursor"), { ssr: false });
+
 export default function Home() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const unifiedRef = useRef<HTMLDivElement>(null);
+  const deckRef = useRef<HTMLDivElement>(null);
+  const experienceSectionRef = useRef<HTMLDivElement>(null);
+  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const projectsFlexRef = useRef<HTMLDivElement>(null);
+
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
+    if (typeof window !== "undefined") {
+      const hasVisited = sessionStorage.getItem("visited");
+      if (hasVisited) {
+        setIsPreloaderComplete(true);
+      }
+    }
+  }, []);
 
-      const rect = section.getBoundingClientRect();
-      const travelDistance = rect.height - window.innerHeight;
-      if (travelDistance <= 0) return;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
-      // scrolled distance is the negative rect.top relative to the viewport
-      const scrolled = -rect.top;
-      const progress = Math.min(Math.max(scrolled / travelDistance, 0), 1);
-      setScrollProgress(progress);
-    };
+    const ctx = gsap.context(() => {
+      const unified = unifiedRef.current;
+      const deck = deckRef.current;
+      const projectsSection = projectsSectionRef.current;
+      const projectsFlex = projectsFlexRef.current;
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+      if (!unified || !deck || !projectsSection || !projectsFlex) return;
+
+      const getScrollAmount = () => {
+        return projectsFlex.scrollWidth - window.innerWidth;
+      };
+
+      // Set initial state of projects section to be translated out of view (on the right)
+      gsap.set(projectsSection, { x: "100vw" });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: unified,
+          start: "top top",
+          end: () => `+=${2 * window.innerHeight + getScrollAmount()}`,
+          scrub: 1,
+          pin: true,
+          invalidateOnRefresh: true,
+          id: "unified-flow-trigger",
+        },
+      });
+
+      // 1. Cards Stack Transition: Map the first unit of scroll to cards progress (0 to 1)
+      tl.to({}, {
+        duration: 1,
+        onUpdate: function () {
+          setScrollProgress(this.progress());
+        },
+      });
+
+      // 2. Section Transition: Slide the deck out to the left and projects in from the right
+      tl.to(deck, {
+        x: "-100vw",
+        opacity: 0,
+        ease: "power2.inOut",
+        duration: 1,
+      }, "+=0.15");
+
+      tl.to(projectsSection, {
+        x: "0vw",
+        ease: "power2.inOut",
+        duration: 1,
+      }, "<"); // start at the same time
+
+      // 3. Projects Horizontal Scroll
+      tl.to(projectsFlex, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        duration: 2.5,
+      });
+    });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      ctx.revert();
+      ScrollTrigger.getById("unified-flow-trigger")?.kill();
     };
   }, []);
 
-  const activeIndex = scrollProgress < 0.33 ? 0 : scrollProgress < 0.66 ? 1 : 2;
+  const activeIndex = scrollProgress < 0.5 ? 0 : 1;
 
   const getCardStyle = (index: number) => {
     const diff = activeIndex - index;
@@ -66,136 +135,139 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <VideoIntro videoSrc="/hero.mp4" />
+      <div id="preloader-portal">
+        <Preloader onComplete={() => setIsPreloaderComplete(true)} />
+      </div>
+      
+      <div id="cursor-portal">
+        <CustomCursor />
+      </div>
 
-      {/* Deck Scrolling Section */}
-      <section ref={sectionRef} id="work" className={styles.deckSection}>
-        <div className={styles.stickyContainer}>
-          <div className={styles.deckInner}>
-            <div className={styles.cardStack}>
+      <div id="social-dock-portal">
+        {isPreloaderComplete && (
+          <SocialDock 
+            githubUser="asmi-shetty" 
+            linkedinUser="asmi-shetty" 
+            leetcodeUser="asmi-shetty" 
+            instagramUser="asmi-shetty"
+            twitterUser="asmi-shetty"
+          />
+        )}
+      </div>
 
-              {/* Card 1: WHO I AM */}
-              <div className={styles.cardWrapper} style={getCardStyle(0)}>
-                <div className={styles.card}>
-                  <span className={styles.cardHeader}>ABOUT - PROFILE</span>
-                  <h3 className={styles.cardTitle}>WHO I AM</h3>
+      <VideoIntro videoSrc="/hero.mp4" startEntrance={isPreloaderComplete} />
 
-                  <p className={styles.cardBody}>
-                    I build <em>Software applications</em>, <em>AI agents</em>, and <em>Blockchain Solutions</em> that transform ideas into scalable products. From <em>intelligent automation</em> and <em>agentic workflows</em> to <em>Full-stack applications</em> and <em>Web3 platforms</em>, I leverage cutting-edge technologies to create innovative and user-centric experiences.
-                  </p>
+      {/* Unified Scroll Flow Section */}
+      <div ref={unifiedRef} className={styles.unifiedSection}>
+        
+        {/* Part 1: Cards Stacking Deck */}
+        <section ref={deckRef} id="work" className={styles.deckSection}>
+          <div className={styles.stickyContainer}>
+            <div className={styles.deckInner}>
+              <div className={styles.cardStack}>
 
-                  <div className={styles.badgeContainer}>
-                    {["SOFTWARE DEV", "AI AGENTS", "BLOCKCHAIN", "FULL STACK", "WEB3"].map((badge, idx) => (
-                      <span key={idx} className={styles.badge}>{badge}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                {/* Card 1: WHO I AM */}
+                <div className={styles.cardWrapper} style={getCardStyle(0)}>
+                  <MagneticWrapper range={220} strength={0.06}>
+                    <div className={styles.card}>
+                      <span className={styles.cardHeader}>ABOUT - PROFILE</span>
+                      <h3 className={`${styles.cardTitle} spotlight-text`}>WHO I AM</h3>
 
-              {/* Card 2: TECHNICAL SKILLS */}
-              <div className={styles.cardWrapper} style={getCardStyle(1)}>
-                <div className={styles.card}>
-                  <span className={styles.cardHeader}>ABOUT - ARSENAL</span>
-                  <h3 className={styles.cardTitle}>TECHNICAL SKILLS</h3>
-                  <span className={styles.outlineNumber}>02</span>
+                    <p className={styles.cardBody}>
+                      I build <em>Software applications</em>, <em>AI agents</em>, and <em>Blockchain Solutions</em> that transform ideas into scalable products. From <em>intelligent automation</em> and <em>agentic workflows</em> to <em>Full-stack applications</em> and <em>Web3 platforms</em>, I leverage cutting-edge technologies to create innovative and user-centric experiences.
+                    </p>
 
-                  <div className={styles.skillsGrid}>
-                    {/* Column 1 */}
-                    <div className={styles.skillsColumn}>
-                      <div className={styles.skillsCategory}>
-                        <span className={styles.skillsLabel}>TECH STACK</span>
-                        <div className={styles.skillsList}>
-                          {["Python", "SQL", "C", "C++", "HTML", "CSS", "JavaScript", "React.js", "Node.js", "MongoDB", "MySQL"].map((item, idx) => (
-                            <span key={idx} className={styles.skillPill}>{item}</span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className={styles.skillsCategory}>
-                        <span className={styles.skillsLabel}>OTHER SKILLS</span>
-                        <div className={styles.skillsList}>
-                          {["Communication", "Teamwork", "Leadership", "Problem-Solving", "Performance management"].map((item, idx) => (
-                            <span key={idx} className={styles.skillPill}>{item}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Column 2 */}
-                    <div className={styles.skillsColumn}>
-                      <div className={styles.skillsCategory}>
-                        <span className={styles.skillsLabel}>AI / ML</span>
-                        <div className={styles.skillsList}>
-                          {["Agentic Systems", "AI Security", "Generative AI Agents", "Generative Model Architectures", "LLM Application Development", "Retrieval-Augmented Generation (RAG)", "Tool Calling"].map((item, idx) => (
-                            <span key={idx} className={styles.skillPill}>{item}</span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className={styles.skillsCategory}>
-                        <span className={styles.skillsLabel}>BLOCKCHAIN</span>
-                        <div className={styles.skillsList}>
-                          {["Solidity", "Ethereum", "Smart Contracts", "DApps", "DeFi", "Cryptocurrency", "NFTs"].map((item, idx) => (
-                            <span key={idx} className={styles.skillPill}>{item}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Column 3 */}
-                    <div className={styles.skillsColumn}>
-                      <div className={styles.skillsCategory}>
-                        <span className={styles.skillsLabel}>TOOLS</span>
-                        <div className={styles.skillsList}>
-                          {["LangChain", "LangGraph", "OpenAI API", "Vector Databases", "Model Context Protocol (MCP)", "Prompt Engineering", "Agentic Workflows", "GitHub", "Version Control", "ETL", "AWS"].map((item, idx) => (
-                            <span key={idx} className={styles.skillPill}>{item}</span>
-                          ))}
-                        </div>
-                      </div>
+                    <div className={styles.badgeContainer}>
+                      {["SOFTWARE DEV", "AI AGENTS", "BLOCKCHAIN", "FULL STACK", "WEB3"].map((badge, idx) => (
+                        <span key={idx} className={styles.badge}>{badge}</span>
+                      ))}
                     </div>
                   </div>
-                </div>
+                </MagneticWrapper>
               </div>
 
-              {/* Card 3: EDUCATION */}
-              <div className={styles.cardWrapper} style={getCardStyle(2)}>
-                <div className={styles.card}>
-                  <span className={styles.cardHeader}>ABOUT - JOURNEY</span>
-                  <h3 className={styles.cardTitle}>EDUCATION</h3>
-                  <span className={styles.outlineNumber}>03</span>
+                {/* Card 2: TECHNICAL SKILLS */}
+                <div className={styles.cardWrapper} style={getCardStyle(1)}>
+                  <MagneticWrapper range={220} strength={0.06}>
+                    <div className={styles.card}>
+                      <span className={styles.cardHeader}>ABOUT - ARSENAL</span>
+                      <h3 className={`${styles.cardTitle} spotlight-text`}>TECHNICAL SKILLS</h3>
+                    <span className={styles.outlineNumber}>02</span>
 
-                  <div className={styles.timeline}>
-                    <div className={styles.educationItem}>
-                      <div className={styles.educationDate}>DEC 2023</div>
-                      <div className={styles.educationContent}>
-                        <h4 className={styles.educationDegree}>Master of Science in Business Analytics</h4>
-                        <span className={styles.educationSchool}>University of North Texas — Denton, TX</span>
-                        <span className={styles.educationGpa}>GPA 4.0</span>
+                    <div className={styles.skillsGrid}>
+                      {/* Column 1 */}
+                      <div className={styles.skillsColumn}>
+                        <div className={styles.skillsCategory}>
+                          <span className={styles.skillsLabel}>TECH STACK</span>
+                          <div className={styles.skillsList}>
+                            {["Python", "SQL", "C", "C++", "HTML", "CSS", "JavaScript", "React.js", "Node.js", "MongoDB", "MySQL"].map((item, idx) => (
+                              <span key={idx} className={styles.skillPill}>{item}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className={styles.skillsCategory}>
+                          <span className={styles.skillsLabel}>OTHER SKILLS</span>
+                          <div className={styles.skillsList}>
+                            {["Communication", "Teamwork", "Leadership", "Problem-Solving", "Performance management"].map((item, idx) => (
+                              <span key={idx} className={styles.skillPill}>{item}</span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className={styles.educationItem}>
-                      <div className={styles.educationDate}>MAY 2019</div>
-                      <div className={styles.educationContent}>
-                        <h4 className={styles.educationDegree}>Bachelor of Technology</h4>
-                        <span className={styles.educationSchool}>JNTU College of Engineering — Jagtial, IN</span>
-                        <span className={styles.educationGpa}>GPA 3.8</span>
+                      {/* Column 2 */}
+                      <div className={styles.skillsColumn}>
+                        <div className={styles.skillsCategory}>
+                          <span className={styles.skillsLabel}>AI / ML</span>
+                          <div className={styles.skillsList}>
+                            {["Agentic Systems", "AI Security", "Generative AI Agents", "Generative Model Architectures", "LLM Application Development", "Retrieval-Augmented Generation (RAG)", "Tool Calling"].map((item, idx) => (
+                              <span key={idx} className={styles.skillPill}>{item}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className={styles.skillsCategory}>
+                          <span className={styles.skillsLabel}>BLOCKCHAIN</span>
+                          <div className={styles.skillsList}>
+                            {["Solidity", "Ethereum", "Smart Contracts", "DApps", "DeFi", "Cryptocurrency", "NFTs"].map((item, idx) => (
+                              <span key={idx} className={styles.skillPill}>{item}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Column 3 */}
+                      <div className={styles.skillsColumn}>
+                        <div className={styles.skillsCategory}>
+                          <span className={styles.skillsLabel}>TOOLS</span>
+                          <div className={styles.skillsList}>
+                            {["LangChain", "LangGraph", "OpenAI API", "Vector Databases", "Model Context Protocol (MCP)", "Prompt Engineering", "Agentic Workflows", "GitHub", "Version Control", "ETL", "AWS"].map((item, idx) => (
+                              <span key={idx} className={styles.skillPill}>{item}</span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </MagneticWrapper>
               </div>
 
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured Projects Carousel */}
-      <ProjectCarousel />
+        {/* Part 2: Featured Projects */}
+        <Work sectionRef={projectsSectionRef} flexRef={projectsFlexRef} />
 
-      {/* Work Experience Timeline */}
-      <ExperienceTimeline />
+      </div>
+
+      {/* Part 3: Interactive Holographic Experience (placed outside to scroll naturally) */}
+      <ExperienceCube sectionRef={experienceSectionRef} />
+
+      {/* Part 4: Tech Stack Universe */}
+      <TechUniverse />
     </main>
   );
 }

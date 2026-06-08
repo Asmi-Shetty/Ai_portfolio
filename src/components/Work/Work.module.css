@@ -1,0 +1,247 @@
+.workSection {
+  transition: 0s;
+  height: 100vh;
+  box-sizing: border-box;
+  will-change: transform;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background-color: var(--dark);
+}
+
+.workSection h2 {
+  margin-top: 100px;
+  font-size: 80px;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: -1px;
+}
+
+.workSection h2 > span {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange-warm) 0%, var(--orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.workContainer {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-content: stretch;
+}
+
+.workFlex {
+  width: 100%;
+  display: flex;
+  height: 100%;
+  margin-left: -80px;
+  padding-right: 120px;
+  position: relative;
+}
+
+.workBox {
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  box-sizing: border-box;
+  border-right: 1px solid #363636;
+  flex-shrink: 0;
+  gap: 50px;
+  justify-content: flex-start;
+}
+
+.workFlex .workBox:nth-child(even) {
+  flex-direction: column-reverse;
+}
+
+/* Horizontal track lines are completely removed to eliminate section-to-section borders */
+
+.workTitle {
+  justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.workTitle > div {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.workTitle > div h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.workTitle > div p {
+  font-size: 14px;
+  font-weight: 300;
+  color: #a1a1aa;
+  margin: 0;
+  margin-top: 4px;
+}
+
+.workTitle h3 {
+  font-size: 80px;
+  line-height: 1;
+  margin: 0;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.workInfo h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.workInfo p {
+  font-size: 14px;
+  font-weight: 300;
+  color: #a1a1aa;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.workInfo > p {
+  width: 90%;
+}
+
+.workImage {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.workImageIn {
+  position: relative;
+  display: inline-block;
+}
+
+.workLink {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--dark);
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.3),
+    inset 0px 0px 10px 0px #393939;
+  transition: all 0.3s ease;
+  opacity: 0;
+  color: #ffffff;
+}
+
+.workLink:hover {
+  color: var(--orange-warm);
+  border-color: var(--orange);
+  box-shadow: 0px 0px 15px 0px var(--orange-glow),
+    inset 0px 0px 10px 0px rgba(232, 101, 42, 0.2);
+}
+
+.workImageIn:hover .workLink {
+  opacity: 1;
+}
+
+.workImage video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  object-fit: cover;
+}
+
+.workImage img {
+  max-width: 100%;
+  max-height: 350px;
+  border-radius: 8px;
+}
+
+@media only screen and (max-height: 900px) {
+  .workImage img {
+    max-height: 250px;
+  }
+  .workBox {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .workSection h2 {
+    font-size: 60px;
+    margin-bottom: 30px;
+    margin-top: 70px;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .workTitle h3 {
+    font-size: 55px;
+  }
+  .workInfo p {
+    font-size: 13px;
+  }
+  .workInfo h4 {
+    font-size: 15px;
+  }
+  .workBox {
+    width: 450px;
+    padding: 50px;
+  }
+  .workFlex {
+    margin-left: -50px;
+    padding-right: 75px;
+  }
+  .workSection h2 {
+    font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .workBox {
+    width: 350px;
+    padding: 30px;
+  }
+  .workFlex {
+    margin-left: -30px;
+    padding-right: 45px;
+  }
+  .workTitle h3 {
+    font-size: 40px;
+  }
+  .workContainer {
+    align-content: normal;
+  }
+  .workFlex {
+    height: auto;
+  }
+}
+
+@media only screen and (max-height: 650px) {
+  .workImage img {
+    max-height: 200px;
+  }
+  .workSection h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  .workBox {
+    gap: 20px;
+  }
+}

@@ -1,0 +1,139 @@
+/* SocialDock.module.css */
+
+.dock {
+  position: fixed;
+  z-index: 9990; /* High z-index but below Custom Cursor */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Floating animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Position and alignment */
+@media (min-width: 769px) {
+  .dock {
+    left: 16px;
+    bottom: 0px; /* Start at 0, padding handles height, line touches screen bottom */
+    gap: 12px;
+    animation: float 5s ease-in-out infinite;
+  }
+}
+
+/* Icon list container */
+.iconList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Individual Icon Link Wrapper */
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #e8652a;
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: outline 0.2s ease;
+}
+
+.iconLink:focus-visible {
+  outline: 2px dashed #e8652a;
+  outline-offset: 4px;
+}
+
+/* SVG outline styling */
+.svgIcon {
+  width: 26px;
+  height: 26px;
+  stroke: #e8652a;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(232, 101, 42, 0.25));
+  transition: stroke-width 0.3s ease, filter 0.3s ease;
+}
+
+/* Thin vertical accent line */
+.line {
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(to bottom, #e8652a 0%, rgba(232, 101, 42, 0.15) 100%);
+  box-shadow: 0 0 10px rgba(232, 101, 42, 0.3);
+  will-change: transform;
+}
+
+/* Tablet Resizing */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .dock {
+    left: 12px;
+    gap: 10px;
+  }
+  .iconLink {
+    width: 38px;
+    height: 38px;
+  }
+  .svgIcon {
+    width: 22px;
+    height: 22px;
+  }
+  .line {
+    height: 100px;
+  }
+}
+
+/* Mobile responsive layout (horizontal dock at bottom-center) */
+@media (max-width: 768px) {
+  .dock {
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%) !important; /* Force center */
+    flex-direction: row;
+    gap: 10px;
+    animation: float 4s ease-in-out infinite; /* faster float on mobile */
+  }
+
+  .iconList {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .iconLink {
+    width: 44px;
+    height: 44px;
+    background: rgba(8, 7, 6, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(232, 101, 42, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .svgIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Hide vertical line on mobile */
+  .line {
+    display: none;
+  }
+}
