@@ -1,0 +1,314 @@
+/* GetInTouch.module.css */
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 6vw;
+  overflow: hidden;
+}
+
+/* ── Twinkling Stars Background Canvas ── */
+.starsCanvas {
+  position: absolute;
+  inset: -30px;
+  width: calc(100% + 60px);
+  height: calc(100% + 60px);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── Container Grid ── */
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 50/50 split */
+  align-items: center;
+  gap: 60px;
+}
+
+/* ── Dark Navy Contact Form Card ── */
+.formCard {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0px; /* Square edges as requested */
+  padding: 40px 45px;
+  width: 100%;
+  max-width: 480px; /* Keep the box compact */
+  margin: 0 auto;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.65), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Subtitle (Category Label) ── */
+.categoryLabel {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: #c5bdf5; /* Light lavender color */
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* ── Large Title ── */
+.title {
+  font-family: var(--font-serif);
+  font-size: 3.6rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  margin-bottom: 30px;
+  line-height: 1.1;
+  text-shadow: 0 0 40px rgba(124, 58, 237, 0.2);
+}
+
+/* ── Form Styling ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Spacing between fields */
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Labels: White, 18px, Semibold */
+.label {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Inputs & Textarea: 58px Height, #120B35 background, border none, padding 24px */
+.input {
+  width: 100%;
+  height: 58px;
+  background: #120b35;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0 24px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Interactive focus glow with purple neon outline */
+.input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Large Textarea: 130px Height */
+.textarea {
+  width: 100%;
+  height: 130px;
+  background: #120b35;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 18px 24px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  resize: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.textarea::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.textarea:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Hover effect on hover fields */
+.input:hover, .textarea:hover {
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Submit Button ── */
+.submitBtn {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  padding: 20px 45px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.25s ease;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.5);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Interactive 3D WebGL Globe Container ── */
+.globeContainer {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: grab;
+}
+
+.globeContainer:active {
+  cursor: grabbing;
+}
+
+/* ── Success / Submission Confirmation State ── */
+.successWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.successIcon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.successIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.successTitle {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.successDesc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin-bottom: 35px;
+  max-width: 360px;
+}
+
+.resetBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.resetBtn:hover {
+  color: #ffffff;
+}
+
+/* ── Responsive Styling ── */
+
+/* Tablet (Layout 60/40) */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+  }
+
+  .formCard {
+    padding: 40px;
+  }
+
+  .title {
+    font-size: 4rem;
+  }
+}
+
+/* Mobile (Globe on Top, Form below) */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 24px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column-reverse; /* Globe on top, Form below */
+    gap: 40px;
+  }
+
+  .globeContainer {
+    height: 400px;
+  }
+
+  .formCard {
+    padding: 30px 24px;
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+  }
+
+  .label {
+    font-size: 16px;
+  }
+
+  .input {
+    height: 52px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .textarea {
+    height: 120px;
+    padding: 18px 20px;
+    font-size: 14px;
+  }
+}

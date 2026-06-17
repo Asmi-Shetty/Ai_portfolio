@@ -25,10 +25,9 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
   const firstName = useRef<HTMLDivElement>(null);
   const lastName = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const scrollRef = useRef<HTMLButtonElement>(null);
   const soundHintRef = useRef<HTMLDivElement>(null);
 
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showSoundHint, setShowSoundHint] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,8 +55,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           taglineRef.current,
           firstName.current,
           lastName.current,
-          subtitleRef.current,
-          scrollRef.current
+          subtitleRef.current
         ].filter(Boolean);
 
         // Set initial states immediately to avoid flash
@@ -112,13 +110,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           );
         }
 
-        if (scrollRef.current) {
-          tl.to(
-            scrollRef.current,
-            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-            "-=0.5"
-          );
-        }
+        // scroll indicator animation removed
 
         setIsLoaded(true);
       } catch (err) {
@@ -140,6 +132,31 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
     }, 4500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Handle autoplay with sound on, fall back to muted if blocked by browser autoplay policy
+  useEffect(() => {
+    const v = videoRef.current;
+    const bg = bgVideoRef.current;
+    if (!v || !bg || !startEntrance) return;
+
+    v.muted = isMuted;
+    bg.muted = isMuted;
+
+    const promise = v.play();
+    if (promise !== undefined) {
+      promise.then(() => {
+        bg.play().catch(() => {});
+        setIsPlaying(true);
+      }).catch((error) => {
+        console.warn("Unmuted autoplay prevented by browser. Falling back to muted autoplay:", error);
+        v.muted = true;
+        bg.muted = true;
+        setIsMuted(true);
+        v.play().catch(() => {});
+        bg.play().catch(() => {});
+      });
+    }
+  }, [startEntrance]);
 
   // Typewriter effect logic
   useEffect(() => {
@@ -187,21 +204,24 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
 
   const togglePlay = useCallback(() => {
     const v = videoRef.current;
+    const bg = bgVideoRef.current;
     if (!v) return;
     if (isPlaying) {
       v.pause();
-      bgVideoRef.current?.pause();
+      bg?.pause();
+      setIsPlaying(false);
     } else {
+      if (v.ended) {
+        v.currentTime = 0;
+        if (bg) bg.currentTime = 0;
+      }
       v.play();
-      bgVideoRef.current?.play();
+      bg?.play();
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   }, [isPlaying]);
 
-  const scrollToWork = useCallback(() => {
-    const el = document.getElementById("work");
-    el?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  // scrollToWork callback removed
 
   return (
     <section ref={sectionRef} className={styles.hero}>
@@ -212,8 +232,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           className={styles.bgVideo}
           src={videoSrc}
           autoPlay
-          loop
-          muted
+          muted={isMuted}
           playsInline
           preload="auto"
           aria-hidden="true"
@@ -233,11 +252,11 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           className={styles.video}
           src={videoSrc}
           autoPlay
-          loop
-          muted
+          muted={isMuted}
           playsInline
           preload="auto"
           onCanPlayThrough={() => setIsLoaded(true)}
+          onEnded={() => setIsPlaying(false)}
         />
         <div className={styles.videoGlow} />
       </div>
@@ -314,25 +333,11 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
       </div>
 
       {/* ── Sound hint badge ── */}
-      <div className={`${styles.soundHint} ${showSoundHint ? styles.soundHintVisible : styles.soundHintHidden}`}>
+      <div className={`${styles.soundHint} ${(showSoundHint && isMuted) ? styles.soundHintVisible : styles.soundHintHidden}`}>
         <span className={styles.soundPulse} />
         Tap for sound
       </div>
 
-      {/* ── Scroll indicator ── */}
-      <MagneticWrapper range={180} strength={0.25}>
-        <button
-          ref={scrollRef}
-          className={styles.scrollIndicator}
-          onClick={scrollToWork}
-          aria-label="Scroll to work"
-        >
-          <span className={styles.scrollLabel}>Scroll</span>
-          <span className={styles.scrollLine}>
-            <span className={styles.scrollPulse} />
-          </span>
-        </button>
-      </MagneticWrapper>
     </section>
   );
 };

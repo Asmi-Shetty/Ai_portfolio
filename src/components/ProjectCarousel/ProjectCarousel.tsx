@@ -15,35 +15,43 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     id: 1,
-    title: "AetherAgent",
-    subtitle: "Autonomous AI Agent Orchestration",
-    description: "An advanced multi-agent framework orchestrating collaborative workflows. Features high-performance semantic memory caching, real-time tool-calling protocols, and secure validation loops.",
+    title: "AI Meeting Intelligence and RAG Assistant",
+    subtitle: "Meeting transcription & conversational RAG insights",
+    description: "AI-powered meeting assistant transcribing English/Hindi meetings from URLs or files. Built with LangChain and ChromaDB for conversational query retrieval, automated summaries, and exported PDF reports.",
     image: "/project_ai.png",
-    tech: ["Python", "LangGraph", "OpenAI API", "Vector Databases", "MCP"]
+    tech: ["Python", "LangChain LCEL", "OpenAI Whisper", "Sarvam AI", "Mistral AI", "ChromaDB", "Hugging Face Embeddings", "RAG", "Streamlit"]
   },
   {
     id: 2,
-    title: "NovaDeFi",
-    subtitle: "Web3 Yield Optimizer & Swap",
-    description: "A gas-optimized liquidity pool and lending vault protocol on Ethereum. Achieves lower transaction fees with mathematical yield curve matching and custom gas optimizations.",
-    image: "/project_defi.png",
-    tech: ["Solidity", "Ethereum", "Smart Contracts", "DApps", "React.js"]
+    title: "Adaptive RAG: Agentic AI Chatbot",
+    subtitle: "LangGraph multi-agent routing & semantic document search",
+    description: "Adaptive RAG system dynamically routing queries between Qdrant document search and web search. Implements a multi-agent LangGraph workflow for relevance grading, chunking, and query rewriting.",
+    image: "/project_security.png",
+    tech: ["Python", "LangGraph", "FastAPI", "Qdrant", "LLM", "MongoDB", "OpenAI API", "Streamlit", "REST APIs"]
   },
   {
     id: 3,
-    title: "SpecterShield",
-    subtitle: "AI Cybersecurity Contract Auditor",
-    description: "An automated real-time contract auditor and endpoint shield. Evaluates smart contracts for logical vulnerabilities and guards LLM endpoints against prompt injection attacks.",
-    image: "/project_security.png",
-    tech: ["Python", "PyTorch", "Node.js", "Next.js", "AI Security"]
+    title: "Loops: Full-Stack AI Platform",
+    subtitle: "Networking, collaborative coding & structured learning ecosystem",
+    description: "Upgraded a full-stack AI platform integrating collaborative coding, networking, learning, and assessments. Built Loops real-time messaging and geolocation event discovery.",
+    image: "/project_defi.png",
+    tech: ["React.js", "Node.js", "Python", "MERN", "Socket.io", "PostgreSQL", "Prisma", "Geolocation API"]
   },
   {
     id: 4,
-    title: "HeliosIoT",
-    subtitle: "Decentralized Edge Telemetry Console",
-    description: "An immersive real-time geographic telemetry console monitoring global IoT swarms. Secures device authentication using Web3 cryptographic signatures and decentralized identity.",
+    title: "Ayushman Bharat Health Portal",
+    subtitle: "ABDM-aligned digital healthcare scaling platform",
+    description: "ABDM-aligned portal enabling 10,000+ patient registrations and empowering 1,000+ professionals. Refactored backend architecture with 10+ REST APIs for facility management.",
     image: "/project_iot.png",
-    tech: ["React.js", "Rust", "WebAssembly", "Web3.js", "AWS"]
+    tech: ["Node.js", "Express", "MongoDB", "REST APIs", "ABDM SDK", "Docker"]
+  },
+  {
+    id: 5,
+    title: "Real Estate Platform",
+    subtitle: "Property discovery, locality insights & smart search portal",
+    description: "Full-stack property discovery platform across Nagpur. Features property listings, locality insights, and an intuitive search experience with FastAPI and PostgreSQL.",
+    image: "/project_security.png",
+    tech: ["React.js", "Tailwind CSS", "FastAPI", "SQLAlchemy", "SQLite", "PostgreSQL"]
   }
 ];
 

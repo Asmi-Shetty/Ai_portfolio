@@ -166,9 +166,8 @@ export const CustomCursor: React.FC = () => {
   if (!mounted) return null;
 
   // Render sizes and opacity based on active hover or magnetic states
-  const orbSize = attractionData ? 14 : isHovered ? 12 : 28;
-  const ringSize = attractionData ? 90 : isHovered ? 80 : 0;
-  const ringOpacity = attractionData || isHovered ? 1 : 0;
+  const orbSize = attractionData ? 48 : isHovered ? 40 : 16;
+  const orbOpacity = attractionData || isHovered ? 0.35 : 0.8;
 
   return (
     <>
@@ -195,18 +194,6 @@ export const CustomCursor: React.FC = () => {
           smoothY={smoothY}
         />
 
-        {/* Outer Ring */}
-        <motion.div
-          className={styles.ring}
-          style={{
-            x: smoothX,
-            y: smoothY,
-            width: ringSize,
-            height: ringSize,
-            opacity: ringOpacity,
-          }}
-        />
-
         {/* Core Glowing Orb */}
         <motion.div
           className={styles.orb}
@@ -215,6 +202,7 @@ export const CustomCursor: React.FC = () => {
             y: smoothY,
             width: orbSize,
             height: orbSize,
+            opacity: orbOpacity,
             rotate: rotateAngle,
             scaleX: stretchScaleX,
             scaleY: stretchScaleY,

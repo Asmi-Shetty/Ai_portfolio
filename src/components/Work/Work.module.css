@@ -11,6 +11,7 @@
 
 .workSection h2 {
   margin-top: 100px;
+  margin-left: 80px;
   font-size: 80px;
   font-weight: 500;
   color: #ffffff;
@@ -37,21 +38,21 @@
   width: 100%;
   display: flex;
   height: 100%;
-  margin-left: -80px;
+  margin-left: 80px;
   padding-right: 120px;
   position: relative;
 }
 
 .workBox {
-  padding: 80px;
+  padding: 50px 80px;
   display: flex;
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
   border-right: 1px solid #363636;
   flex-shrink: 0;
-  gap: 50px;
-  justify-content: flex-start;
+  gap: 25px;
+  justify-content: space-between;
 }
 
 .workFlex .workBox:nth-child(even) {
@@ -102,7 +103,8 @@
   font-weight: 600;
   color: #ffffff;
   margin: 0;
-  margin-bottom: 5px;
+  margin-top: 20px; /* Space above Tools and features header */
+  margin-bottom: 10px; /* Space below header */
   text-transform: capitalize;
 }
 
@@ -118,6 +120,16 @@
   width: 90%;
 }
 
+.workInfo .workDescription {
+  font-size: 14px;
+  font-weight: 300;
+  color: #d1d1d6; /* Slightly brighter for better contrast */
+  line-height: 1.6;
+  margin-top: 15px !important;
+  margin-bottom: 25px !important;
+  width: 90%;
+}
+
 .workImage {
   display: flex;
   width: 100%;
@@ -126,7 +138,9 @@
 
 .workImageIn {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  height: 250px;
 }
 
 .workLink {
@@ -165,28 +179,32 @@
   height: 100%;
   top: 0;
   left: 0;
+  border-radius: 8px;
   background-color: #000;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .workImage img {
-  max-width: 100%;
-  max-height: 350px;
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
+  object-fit: contain;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 @media only screen and (max-height: 900px) {
-  .workImage img {
-    max-height: 250px;
+  .workImageIn {
+    height: 180px;
   }
   .workBox {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: 30px 50px;
+    gap: 20px;
   }
   .workSection h2 {
-    font-size: 60px;
-    margin-bottom: 30px;
-    margin-top: 70px;
+    font-size: 55px;
+    margin-top: 40px;
+    margin-bottom: 20px;
   }
 }
 
@@ -205,11 +223,12 @@
     padding: 50px;
   }
   .workFlex {
-    margin-left: -50px;
+    margin-left: 60px;
     padding-right: 75px;
   }
   .workSection h2 {
     font-size: 50px;
+    margin-left: 60px;
   }
 }
 
@@ -219,7 +238,7 @@
     padding: 30px;
   }
   .workFlex {
-    margin-left: -30px;
+    margin-left: 40px;
     padding-right: 45px;
   }
   .workTitle h3 {
@@ -231,17 +250,55 @@
   .workFlex {
     height: auto;
   }
+  .workSection h2 {
+    margin-left: 40px;
+  }
 }
 
 @media only screen and (max-height: 650px) {
-  .workImage img {
-    max-height: 200px;
+  .workImageIn {
+    height: 130px;
   }
   .workSection h2 {
     font-size: 40px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
   .workBox {
-    gap: 20px;
+    padding: 20px 40px;
+    gap: 15px;
   }
+}
+
+.projectLinks {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.projectLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d1d1d6;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.projectLinkBtn:hover {
+  background: rgba(232, 101, 42, 0.1);
+  border-color: rgba(232, 101, 42, 0.4);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 101, 42, 0.15);
+}
+
+.projectLinkIcon {
+  font-size: 13px;
 }

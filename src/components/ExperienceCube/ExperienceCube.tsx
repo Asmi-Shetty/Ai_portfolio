@@ -22,16 +22,15 @@ interface Experience {
 const EXPERIENCES: Experience[] = [
   {
     id: 1,
-    role: "Lead AI Developer",
-    company: "AetherMind Systems",
-    duration: "2024 - Present",
-    shortDesc: "Architecting multi-modal neural pipelines and cognitive agent networks.",
-    description: "Led the engineering team in designing and building custom AI agent architectures and enterprise RAG systems. Focused on high-speed semantic retrieval, local models orchestration, and automated system cognition loops.",
-    tech: ["PyTorch", "Transformers", "LangChain", "Milvus", "FastAPI"],
+    role: "Software AI Developer Intern",
+    company: "Arithwise Solutions",
+    duration: "Dec 2025 – Apr 2026",
+    shortDesc: "Upgraded a full-stack AI platform integrating 4 core modules: networking, coding, learning, and assessments.",
+    description: "Upgraded a full-stack AI platform integrating 4 core modules: professional networking, collaborative coding, structured learning, and gamified assessments in a single ecosystem.",
+    tech: ["React.js", "Node.js", "Socket.io", "PostgreSQL", "Prisma", "Geolocation API"],
     achievements: [
-      "Optimized multi-agent tool-calling latency by 42% via custom asynchronous graph orchestration loops.",
-      "Deployed secure, private self-hosted LLM clusters, reducing external API dependencies and saving $120k annually.",
-      "Designed vector search indexes scales to 50M+ documents with sub-15ms response latency."
+      "Created Loops, a real-time social networking module supporting 1:1 messaging, user connections, and interest-based public channels for community-driven interaction.",
+      "Built a geolocation-based event discovery system supporting radius-based search and location tagging for 100+ events, improving event discoverability and user participation."
     ],
     status: "COGNITION: ONLINE",
     theme: "Cyan",
@@ -40,75 +39,55 @@ const EXPERIENCES: Experience[] = [
   },
   {
     id: 2,
-    role: "AI Agent Engineer",
-    company: "Cognition Labs",
-    duration: "2023 - 2024",
-    shortDesc: "Developing autonomous self-correcting agent chains and custom MCP servers.",
-    description: "Engineered self-directed developer agents capable of crawling repositories, debugging compiler errors, and deploying cloud microservices. Maintained deep integrations with custom devtools and Model Context Protocol schema designs.",
-    tech: ["LangGraph", "Python", "OpenAI API", "Vector Databases", "MCP"],
+    role: "Software Engineer Intern",
+    company: "Avijo Healthcare",
+    duration: "Apr 2025 – July 2025",
+    shortDesc: "Refactored backend architecture and integrated ABDM-aligned health portal.",
+    description: "Refactored backend architecture and integrated ABDM-aligned healthcare portal enabling registrations and facility management.",
+    tech: ["Node.js", "Express", "MongoDB", "REST APIs", "ABDM SDK", "Docker"],
     achievements: [
-      "Co-created a multi-agent developer system that achieved an 89.2% success score on SWE-bench tests.",
-      "Engineered automated agent verification pipelines that process and cross-examine 10k lines of code per second.",
-      "Implemented intelligent memory systems utilizing Hierarchical Temporal Memory networks."
+      "Developed ABDM-aligned healthcare portal that can enable 10,000+ patient registrations and empower 1,000+ professionals.",
+      "Refactored backend architecture and developed 10+ REST APIs, models, and controllers for user and facility management."
     ],
-    status: "AGENT_SYNC: OK",
+    status: "HEALTH_PORTAL: OK",
     theme: "Emerald",
     faceClass: styles.faceRight,
-    logo: "🤖"
+    logo: "🏥"
   },
   {
     id: 3,
-    role: "Software Engineer",
-    company: "SpecterTech",
-    duration: "2022 - 2023",
-    shortDesc: "Optimizing high-frequency telemetry systems and core microservices.",
-    description: "Designed ultra-low-latency backend infrastructure processing telemetry packets from global edge servers. Wrote high-performance systems utilities in Go and Rust to handle multi-threaded ingestion flows.",
-    tech: ["Go", "Rust", "C++", "gRPC", "Kubernetes", "Docker"],
+    role: "AI Developer",
+    company: "Freelancer",
+    duration: "Present",
+    shortDesc: "Designed smart real estate platform with interactive search and comparisons.",
+    description: "A real estate platform that helps users discover, compare, and evaluate properties with personalized recommendations. Combines smart search, interactive maps, and market insights to simplify buying and renting.",
+    tech: ["React.js", "Tailwind CSS", "FastAPI", "SQLAlchemy", "SQLite", "PostgreSQL"],
     achievements: [
-      "Re-engineered critical ingestion path in Go, increasing system capacity to handle 1.2M packets/second.",
-      "Reduced CPU and memory consumption of edge collection daemons by 65% through custom Rust bindings.",
-      "Integrated microservices mesh with zero-trust gRPC authentication schemes."
+      "Built property comparison modules and smart search tools, simplifying property buying and renting.",
+      "Integrated interactive maps and market data insights for property valuation and personalized recommendations.",
+      "Created owner dashboard enabling easy property listing and management for faster search experiences."
     ],
-    status: "KERNEL: ACTIVE",
+    status: "REAL_ESTATE: ACTIVE",
     theme: "Blue",
     faceClass: styles.faceBack,
-    logo: "⚡"
+    logo: "🏠"
   },
   {
     id: 4,
-    role: "Senior Full Stack Developer",
-    company: "Helios Digital",
-    duration: "2020 - 2022",
-    shortDesc: "Building real-time telemetry dashboards and heavy canvas-based UI modules.",
-    description: "Led client engineering for holographic telemetry monitoring and geographic telemetry consoles. Solved complex rendering bottlenecks by moving charting and mapping routines to canvas/GPU layers.",
-    tech: ["React.js", "Next.js", "Node.js", "WebGL", "AWS", "PostgreSQL"],
+    role: "Co Lead",
+    company: "Google Developer's Group",
+    duration: "GDG on Campus",
+    shortDesc: "Organized technical workshops and fostered developer community engagement.",
+    description: "As Co-Lead of the Google Developer Groups (GDG) on Campus, I helped organize technical workshops, coding events, and community-building activities for students.",
+    tech: ["Leadership", "Public Speaking", "Event Management", "Community Building", "Technical Workshops"],
     achievements: [
-      "Built WebGL-accelerated telemetry plotting interface rendering 100,000 live nodes at a fluid 60fps.",
-      "Migrated monolithic dashboards to highly optimized Next.js structures, improving PageSpeed index by 38%.",
-      "Mentored junior developers on state optimization and clean web component lifecycles."
+      "Collaborated with team members to drive student engagement and coordinate community-building activities.",
+      "Fostered a campus culture of learning and innovation, empowering peers to explore emerging technologies."
     ],
-    status: "INTERFACE: OK",
+    status: "LEADERSHIP: ACTIVE",
     theme: "Gold",
     faceClass: styles.faceLeft,
-    logo: "💻"
-  },
-  {
-    id: 5,
-    role: "Smart Contract Engineer",
-    company: "NovaDeFi Protocol",
-    duration: "2019 - 2020",
-    shortDesc: "Designing and auditing gas-optimized liquidity vaults on EVM networks.",
-    description: "Authored secure smart contract primitives for decentralized yield aggregation and multi-token trading pools. Ran extensive formal verification testing and vulnerability simulation runs.",
-    tech: ["Solidity", "Ethereum", "Smart Contracts", "Hardhat", "Ethers.js"],
-    achievements: [
-      "Designed yield-compounding contracts and multi-signature security layers securing $14M TVL.",
-      "Wrote custom gas-saving compiler patterns, decreasing average user deposit transaction fees by 35%.",
-      "Successfully led audits and formal verification runs with zero critical exploits reported."
-    ],
-    status: "BLOCK_STATE: SYNC",
-    theme: "Orange",
-    faceClass: styles.faceBottom,
-    logo: "⛓️"
+    logo: "🚀"
   }
 ];
 
@@ -348,7 +327,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
       // 8. Dynamic connections geometry update
       let lineIndex = 0;
       const linePosArr = lineSegments.geometry.attributes.position.array as Float32Array;
-      
+
       // Clear positions
       linePosArr.fill(0);
 
@@ -391,7 +370,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
     dragStartYRef.current = e.clientY;
     startRotationXRef.current = targetRotationXRef.current;
     startRotationYRef.current = targetRotationYRef.current;
-    
+
     // Set pointer capture to support dragging off-element
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
@@ -402,7 +381,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
       const rect = e.currentTarget.getBoundingClientRect();
       const relativeX = (e.clientX - rect.left) / rect.width - 0.5;
       const relativeY = (e.clientY - rect.top) / rect.height - 0.5;
-      
+
       // Tilt camera targets slightly based on hover coords
       targetRotationXRef.current = -15 - relativeY * 20;
       // Allow slow auto-rotation to slide, but let mouse influence it slightly
@@ -428,7 +407,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
   return (
     <div ref={sectionRef} className={styles.experienceSection} id="experience">
       <div className={styles.cubeWrapper}>
-        
+
         {/* WebGL Hologram Core */}
         <div className={styles.canvasContainer}>
           <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
@@ -440,19 +419,19 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
         </div>
 
         {/* 3D Scene viewport */}
-        <div 
+        <div
           className={styles.scene3D}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          <div 
+          <div
             ref={cube3DRef}
             className={styles.cube3D}
           >
             {EXPERIENCES.map((exp) => (
-              <div 
+              <div
                 key={exp.id}
                 className={`${styles.cubeFace} ${exp.faceClass} ${getThemeClass(exp.theme)}`}
                 onMouseEnter={() => { isHoveringRef.current = true; }}
@@ -503,7 +482,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
                   </div>
 
                   <MagneticWrapper strength={0.35}>
-                    <button 
+                    <button
                       className={styles.actionButton}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -535,11 +514,11 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
 
       {/* Immersive Diagnostics Modal Overlay */}
       {activeModal && (
-        <div 
+        <div
           className={styles.modalOverlay}
           onClick={() => setActiveModal(null)}
         >
-          <div 
+          <div
             className={`${styles.modalContent} ${getThemeClass(activeModal.theme)}`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -551,7 +530,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
                 </span>
               </div>
               <MagneticWrapper strength={0.4}>
-                <button 
+                <button
                   className={styles.closeButton}
                   onClick={() => setActiveModal(null)}
                 >
@@ -563,7 +542,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
             </div>
 
             <div className={styles.modalBody}>
-              
+
               <div>
                 <span className={styles.modalSectionTitle}>OPERATIONAL DESCRIPTION</span>
                 <p className={styles.description} style={{ fontSize: "14px", marginTop: "6px" }}>
@@ -587,8 +566,8 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
                 <span className={styles.modalSectionTitle}>STACK ARCHITECTURE</span>
                 <div className={styles.techContainer} style={{ marginTop: "6px", gap: "8px" }}>
                   {activeModal.tech.map((techName, idx) => (
-                    <span 
-                      className={styles.techPill} 
+                    <span
+                      className={styles.techPill}
                       key={idx}
                       style={{ fontSize: "11px", padding: "5px 12px", background: "rgba(255,255,255,0.05)" }}
                     >

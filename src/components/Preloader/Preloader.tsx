@@ -10,7 +10,7 @@ interface PreloaderProps {
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [isExiting, setIsExiting] = useState(false);
-  const { progress, complete } = usePreloader(2500);
+  const { progress, complete } = usePreloader(10000);
 
   useEffect(() => {
     if (complete) {

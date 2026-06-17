@@ -16,44 +16,55 @@ interface ExperienceItem {
 const EXPERIENCES: ExperienceItem[] = [
   {
     id: 1,
-    role: "Lead AI Engineer & Agentic Workflows Developer",
-    company: "Aether AI Labs",
-    duration: "Jan 2024 — Present",
+    role: "Software AI Developer Intern",
+    company: "Arithwise Solutions",
+    duration: "Dec 2025 – Apr 2026",
     type: "ai",
-    description: "Led the development of autonomous multi-agent orchestration frameworks for enterprise workflows. Spearheaded agentic tool-calling modules and optimized context-window efficiency for low-latency executions.",
-    tech: ["Python", "LangChain", "LangGraph", "OpenAI API", "Vector Databases", "MCP", "Prompt Engineering", "AWS", "Agentic Workflows"],
+    description: "Upgraded a full-stack AI platform integrating 4 core modules: professional networking, collaborative coding, structured learning, and gamified assessments in a single ecosystem.",
+    tech: ["React.js", "Node.js", "Socket.io", "PostgreSQL", "Prisma", "Geolocation API"],
     achievements: [
-      "Built a multi-agent system that automated code reviews and unit test generation, cutting QA validation time by 45%.",
-      "Implemented advanced RAG architectures with hybrid semantic-keyword search, achieving 93% accuracy on unstructured query retrieval.",
-      "Formulated secure prompting guidelines and guardrail systems to mitigate LLM injection vulnerabilities across core endpoints."
+      "Created Loops, a real-time social networking module supporting 1:1 messaging, user connections, and interest-based public channels for community-driven interaction.",
+      "Built a geolocation-based event discovery system supporting radius-based search and location tagging for 100+ events, improving event discoverability and user participation."
     ]
   },
   {
     id: 2,
-    role: "Blockchain & Web3 Developer",
-    company: "Decentralized Labs",
-    duration: "Jun 2021 — Dec 2023",
-    type: "blockchain",
-    description: "Designed and implemented high-performance DeFi protocols and smart contracts on EVM-compatible networks. Built secure multi-sig vault systems and dynamic NFT minting engines.",
-    tech: ["Solidity", "Ethereum", "Smart Contracts", "DApps", "DeFi", "Cryptocurrency", "NFTs", "React.js", "Ethers.js"],
+    role: "Software Engineer Intern",
+    company: "Avijo Healthcare",
+    duration: "Apr 2025 – July 2025",
+    type: "software",
+    description: "Refactored backend architecture and integrated ABDM-aligned healthcare portal enabling registrations and facility management.",
+    tech: ["Node.js", "Express", "MongoDB", "REST APIs", "ABDM SDK", "Docker"],
     achievements: [
-      "Authored and audited Solidity smart contracts securing over $4M in Total Value Locked (TVL) with zero security breaches.",
-      "Optimized gas consumption across complex liquidity pool contracts, reducing execution costs for end-users by 25%.",
-      "Engineered a gas-efficient dynamic NFT project with on-chain metadata rendering and automated royalties distribution."
+      "Developed ABDM-aligned healthcare portal that can enable 10,000+ patient registrations and empower 1,000+ professionals.",
+      "Refactored backend architecture and developed 10+ REST APIs, models, and controllers for user and facility management."
     ]
   },
   {
     id: 3,
-    role: "Full Stack Software Engineer",
-    company: "OmniTech Solutions",
-    duration: "Jun 2019 — May 2021",
-    type: "software",
-    description: "Developed robust and scalable web applications, microservices, and relational/NoSQL databases. Configured containerized environments and automated CI/CD pipelines to streamline deployments.",
-    tech: ["Node.js", "React.js", "JavaScript", "HTML", "CSS", "C", "C++", "SQL", "MongoDB", "MySQL", "GitHub", "Version Control"],
+    role: "AI Developer",
+    company: "Freelancer",
+    duration: "Present",
+    type: "ai",
+    description: "A real estate platform that helps users discover, compare, and evaluate properties with personalized recommendations. Combines smart search, interactive maps, and market insights to simplify buying and renting.",
+    tech: ["React.js", "Tailwind CSS", "FastAPI", "SQLAlchemy", "SQLite", "PostgreSQL"],
     achievements: [
-      "Redesigned a core legacy dashboard into a single-page React application, improving client-side page load speed by 60%.",
-      "Built and optimized high-throughput REST APIs handling 500,000+ daily requests with less than 120ms average response time.",
-      "Implemented CI/CD pipelines using GitHub Actions, reducing deployment release cycles from 2 weeks to under 15 minutes."
+      "Built property comparison modules and smart search tools, simplifying property buying and renting.",
+      "Integrated interactive maps and market data insights for property valuation and personalized recommendations.",
+      "Created owner dashboard enabling easy property listing and management for faster search experiences."
+    ]
+  },
+  {
+    id: 4,
+    role: "Co Lead",
+    company: "Google Developer's Group",
+    duration: "GDG on Campus",
+    type: "software",
+    description: "As Co-Lead of the Google Developer Groups (GDG) on Campus, I helped organize technical workshops, coding events, and community-building activities for students.",
+    tech: ["Leadership", "Public Speaking", "Event Management", "Community Building", "Technical Workshops"],
+    achievements: [
+      "Collaborated with team members to drive student engagement and coordinate community-building activities.",
+      "Fostered a campus culture of learning and innovation, empowering peers to explore emerging technologies."
     ]
   }
 ];

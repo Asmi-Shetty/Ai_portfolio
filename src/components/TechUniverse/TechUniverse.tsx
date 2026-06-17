@@ -140,17 +140,17 @@ const TechUniverse = () => {
         ctx.fillRect(0, 0, size, size);
 
         if (name === "React") {
-          // React Blue Logo
+          // React Blue Logo (scaled down)
           ctx.strokeStyle = "#00d8ff";
-          ctx.lineWidth = 14;
+          ctx.lineWidth = 10;
           
           const drawEllipse = (angle: number) => {
             ctx.save();
-            ctx.translate(size / 2, size / 2);
+            ctx.translate(size / 2, size / 2 - 20);
             ctx.rotate(angle);
             ctx.scale(1, 0.36);
             ctx.beginPath();
-            ctx.arc(0, 0, 150, 0, Math.PI * 2);
+            ctx.arc(0, 0, 100, 0, Math.PI * 2);
             ctx.stroke();
             ctx.restore();
           };
@@ -160,100 +160,110 @@ const TechUniverse = () => {
           
           ctx.fillStyle = "#00d8ff";
           ctx.beginPath();
-          ctx.arc(size / 2, size / 2, 28, 0, Math.PI * 2);
+          ctx.arc(size / 2, size / 2 - 20, 18, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.fillStyle = "#00d8ff";
-          ctx.font = "bold 58px sans-serif";
+          ctx.font = "bold 44px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText("React", size / 2, size / 2 + 190);
+          ctx.fillText("React", size / 2, size / 2 + 130);
         }
         else if (name === "JavaScript") {
-          // JS Yellow square
+          // JS Yellow square (scaled down)
           ctx.fillStyle = "#f7df1e";
-          ctx.fillRect(100, 100, 312, 312);
+          ctx.fillRect(156, 136, 200, 200);
           ctx.fillStyle = "#000000";
-          ctx.font = "bold 130px sans-serif";
+          ctx.font = "bold 80px sans-serif";
           ctx.textAlign = "right";
           ctx.textBaseline = "bottom";
-          ctx.fillText("JS", 380, 380);
+          ctx.fillText("JS", 346, 326);
+          
+          ctx.fillStyle = "#111111";
+          ctx.font = "bold 36px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("JavaScript", size / 2, size / 2 + 130);
         }
         else if (name === "TypeScript") {
-          // TS Blue square
+          // TS Blue square (scaled down)
           ctx.fillStyle = "#3178c6";
-          ctx.fillRect(100, 100, 312, 312);
+          ctx.fillRect(156, 136, 200, 200);
           ctx.fillStyle = "#ffffff";
-          ctx.font = "bold 120px sans-serif";
+          ctx.font = "bold 72px sans-serif";
           ctx.textAlign = "right";
           ctx.textBaseline = "bottom";
-          ctx.fillText("TS", 380, 380);
+          ctx.fillText("TS", 346, 326);
+
+          ctx.fillStyle = "#3178c6";
+          ctx.font = "bold 36px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("TypeScript", size / 2, size / 2 + 130);
         }
         else if (name === "MongoDB") {
-          // MongoDB Leaf
+          // MongoDB Leaf (scaled down)
           ctx.fillStyle = "#13aa52";
           ctx.beginPath();
-          ctx.moveTo(256, 110);
-          ctx.quadraticCurveTo(320, 230, 256, 380);
-          ctx.quadraticCurveTo(192, 230, 256, 110);
+          ctx.moveTo(256, 130);
+          ctx.quadraticCurveTo(300, 210, 256, 310);
+          ctx.quadraticCurveTo(212, 210, 256, 130);
           ctx.fill();
 
           ctx.strokeStyle = "#ffffff";
-          ctx.lineWidth = 6;
+          ctx.lineWidth = 4;
           ctx.beginPath();
-          ctx.moveTo(256, 130);
-          ctx.lineTo(256, 360);
+          ctx.moveTo(256, 145);
+          ctx.lineTo(256, 295);
           ctx.stroke();
 
           ctx.fillStyle = "#13aa52";
-          ctx.font = "bold 44px sans-serif";
+          ctx.font = "bold 36px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText("MongoDB", 256, 435);
+          ctx.fillText("MongoDB", 256, 375);
         }
         else if (name === "Python") {
-          // Python snakes
+          // Python snakes (scaled down)
           ctx.fillStyle = "#3776ab";
           ctx.beginPath();
-          ctx.arc(220, 220, 65, 0, Math.PI * 2);
+          ctx.arc(230, 210, 45, 0, Math.PI * 2);
           ctx.fill();
           
           ctx.fillStyle = "#ffd343";
           ctx.beginPath();
-          ctx.arc(292, 292, 65, 0, Math.PI * 2);
+          ctx.arc(282, 262, 45, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.fillStyle = "#111111";
-          ctx.font = "bold 52px sans-serif";
+          ctx.font = "bold 38px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText("Python", 256, 420);
+          ctx.fillText("Python", 256, 360);
         }
         else if (name === "OpenAI API") {
-          // OpenAI spiral
+          // OpenAI spiral (scaled down)
           ctx.strokeStyle = "#10a37f";
-          ctx.lineWidth = 12;
+          ctx.lineWidth = 8;
           for (let i = 0; i < 6; i++) {
             ctx.save();
-            ctx.translate(256, 256);
+            ctx.translate(256, 220);
             ctx.rotate((i * Math.PI) / 3);
             ctx.beginPath();
-            ctx.arc(0, -45, 50, 0, Math.PI * 2);
+            ctx.arc(0, -32, 35, 0, Math.PI * 2);
             ctx.stroke();
             ctx.restore();
           }
           ctx.fillStyle = "#10a37f";
-          ctx.font = "bold 46px sans-serif";
+          ctx.font = "bold 34px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText("OpenAI", 256, 420);
+          ctx.fillText("OpenAI", 256, 340);
         }
         else {
-          // Standard Clean Luxury Branding
+          // Standard Clean Luxury Branding (with smaller font size)
           ctx.strokeStyle = "rgba(0, 0, 0, 0.05)";
-          ctx.lineWidth = 10;
+          ctx.lineWidth = 6;
           ctx.beginPath();
-          ctx.arc(size / 2, size / 2, size / 2 - 30, 0, Math.PI * 2);
+          ctx.arc(size / 2, size / 2, size / 2 - 40, 0, Math.PI * 2);
           ctx.stroke();
 
           ctx.fillStyle = "#111111";
-          ctx.font = name.length > 8 ? "bold 56px sans-serif" : "bold 64px sans-serif";
+          ctx.font = name.length > 8 ? "bold 38px sans-serif" : "bold 46px sans-serif";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillText(name, size / 2, size / 2);
@@ -300,6 +310,7 @@ const TechUniverse = () => {
       );
 
       mesh.position.copy(initialPos);
+      mesh.rotation.y = -Math.PI / 2; // Face texture center to the camera
       mesh.userData = { index };
       scene.add(mesh);
       meshes.push(mesh);
@@ -435,27 +446,6 @@ const TechUniverse = () => {
         s.velocity.x += (Math.random() - 0.5) * 0.007;
         s.velocity.y += (Math.random() - 0.5) * 0.007;
         s.velocity.z += (Math.random() - 0.5) * 0.004;
-
-        // Cursor magnetic field repulsion (Push away on mouse hover / proximity)
-        const toMouse = new THREE.Vector3().subVectors(s.position, mouse3D);
-        toMouse.z = 0; // Lock to 2D screen interactions plane
-        const distToMouse = toMouse.length();
-
-        const maxForceDist = 3.6 * mobileScale; // Large interaction bubble
-
-        if (distToMouse < maxForceDist) {
-          const strength = (maxForceDist - distToMouse) / maxForceDist;
-          
-          if (isHovered) {
-            // High impulse blast when directly hovered so it shoots far away
-            const escapeForce = toMouse.clone().normalize().multiplyScalar(strength * 0.38);
-            s.velocity.add(escapeForce);
-          } else {
-            // Stronger general push for nearby spheres to cause chain reactions
-            const scatterForce = toMouse.clone().normalize().multiplyScalar(strength * 0.14);
-            s.velocity.add(scatterForce);
-          }
-        }
 
         // Apply velocity & Damping friction
         s.position.add(s.velocity);
@@ -596,10 +586,7 @@ const TechUniverse = () => {
         <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
       </div>
 
-      {/* Massive Background Title */}
-      <div className={`${styles.bgTitle} spotlight-text`}>
-        MY TECH STACK
-      </div>
+
 
       {/* Floating Header */}
       <div className={styles.hudHeader}>

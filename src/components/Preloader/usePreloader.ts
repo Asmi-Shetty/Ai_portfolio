@@ -13,15 +13,6 @@ export const usePreloader = (duration = 2500, onComplete?: () => void) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Check if the user has already visited in this session
-    const hasVisited = sessionStorage.getItem("visited");
-    if (hasVisited) {
-      setProgress(100);
-      setComplete(true);
-      onComplete?.();
-      return;
-    }
-
     let startTimestamp: number | null = null;
     let animationFrameId = 0;
 
@@ -38,7 +29,6 @@ export const usePreloader = (duration = 2500, onComplete?: () => void) => {
       if (progressRatio < 1) {
         animationFrameId = requestAnimationFrame(step);
       } else {
-        sessionStorage.setItem("visited", "true");
         setComplete(true);
         onComplete?.();
       }
