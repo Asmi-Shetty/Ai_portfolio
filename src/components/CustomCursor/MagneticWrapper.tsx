@@ -6,12 +6,16 @@ interface MagneticWrapperProps {
   children: React.ReactElement;
   range?: number;
   strength?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export const MagneticWrapper: React.FC<MagneticWrapperProps> = ({
   children,
   range = 150,
   strength = 0.35,
+  className,
+  style,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -95,7 +99,8 @@ export const MagneticWrapper: React.FC<MagneticWrapperProps> = ({
   return (
     <motion.div
       ref={ref}
-      style={{ x: springX, y: springY, display: "inline-block" }}
+      className={className}
+      style={{ x: springX, y: springY, display: "inline-block", ...style }}
     >
       {children}
     </motion.div>

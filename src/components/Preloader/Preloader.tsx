@@ -10,24 +10,26 @@ interface PreloaderProps {
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [isExiting, setIsExiting] = useState(false);
+  const [showEnterBtn, setShowEnterBtn] = useState(false);
   const { progress, complete } = usePreloader(10000);
 
   useEffect(() => {
     if (complete) {
-      setIsExiting(true);
-      
-      // Delay unmounting to allow the 1-second slide up & fade out transitions to play
-      const timer = setTimeout(() => {
-        onComplete();
-      }, 1000);
-      
-      return () => clearTimeout(timer);
+      setShowEnterBtn(true);
     }
-  }, [complete, onComplete]);
+  }, [complete]);
+
+  const handleEnter = () => {
+    setIsExiting(true);
+    // Delay unmounting to allow the 1-second slide up & fade out transitions to play
+    setTimeout(() => {
+      onComplete();
+    }, 1000);
+  };
 
   // Lock body scroll while loader is active
   useEffect(() => {
-    if (!complete) {
+    if (!isExiting) {
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
@@ -38,11 +40,11 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
-  }, [complete]);
+  }, [isExiting]);
 
   return (
     <AnimatePresence>
-      {!complete && (
+      {!isExiting && (
         <motion.div
           className={styles.preloader}
           initial={{ opacity: 1 }}
@@ -68,14 +70,26 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             animate={isExiting ? { scale: 0.84, opacity: 0 } : { scale: 1, opacity: 1 }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           >
-            <span className={styles.label}>LOADING</span>
-            <span className={styles.percentage}>{progress}%</span>
+            {!showEnterBtn ? (
+              <>
+                <span className={styles.label}>LOADING</span>
+                <span className={styles.percentage}>{progress}%</span>
 
-            {/* Thin White Loading Bar */}
-            <div
-              className={styles.progressBar}
-              style={{ width: `${progress}%` }}
-            />
+                {/* Thin White Loading Bar */}
+                <div
+                  className={styles.progressBar}
+                  style={{ width: `${progress}%` }}
+                />
+              </>
+            ) : (
+              <button
+                className={styles.enterBtn}
+                onClick={handleEnter}
+                data-cursor="hover"
+              >
+                ENTER PORTFOLIO
+              </button>
+            )}
           </motion.div>
         </motion.div>
       )}

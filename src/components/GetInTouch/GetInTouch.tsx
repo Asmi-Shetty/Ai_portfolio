@@ -386,16 +386,34 @@ export const GetInTouch: React.FC = () => {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-    }, 1500);
+    const dataToSend = { ...formData };
+
+    // Immediately show the success state for instant visual feedback
+    setIsSubmitted(true);
+    setFormData({ name: "", email: "", message: "" });
+    setIsLoading(false);
+
+    // Dispatch the message in the background silently
+    const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+    if (formspreeId && formspreeId.trim() !== "") {
+      try {
+        await fetch(`https://formspree.io/f/${formspreeId}`, {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSend),
+        });
+      } catch (error) {
+        console.warn("Background contact form submission failed:", error);
+      }
+    }
   };
 
   return (
@@ -428,6 +446,7 @@ export const GetInTouch: React.FC = () => {
                     <label className={styles.label}>Your Name</label>
                     <input
                       type="text"
+                      name="name"
                       required
                       placeholder="What's your good name?"
                       value={formData.name}
@@ -441,6 +460,7 @@ export const GetInTouch: React.FC = () => {
                     <label className={styles.label}>Your Email</label>
                     <input
                       type="email"
+                      name="email"
                       required
                       placeholder="What's your web address?"
                       value={formData.email}
@@ -453,6 +473,7 @@ export const GetInTouch: React.FC = () => {
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>Your Message</label>
                     <textarea
+                      name="message"
                       required
                       placeholder="What you want to say?"
                       value={formData.message}

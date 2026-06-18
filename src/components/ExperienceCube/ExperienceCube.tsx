@@ -51,7 +51,7 @@ const EXPERIENCES: Experience[] = [
     ],
     status: "HEALTH_PORTAL: OK",
     theme: "Emerald",
-    faceClass: styles.faceRight,
+    faceClass: styles.faceLeft,
     logo: "🏥"
   },
   {
@@ -86,7 +86,7 @@ const EXPERIENCES: Experience[] = [
     ],
     status: "LEADERSHIP: ACTIVE",
     theme: "Gold",
-    faceClass: styles.faceLeft,
+    faceClass: styles.faceRight,
     logo: "🚀"
   }
 ];
@@ -100,12 +100,13 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
   const cube3DRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const isHoveringRef = useRef(false);
+  const hasEnteredRef = useRef(false);
 
   // Rotation angles (degrees)
   const rotationXRef = useRef(-15);
-  const rotationYRef = useRef(45);
+  const rotationYRef = useRef(0);
   const targetRotationXRef = useRef(-15);
-  const targetRotationYRef = useRef(45);
+  const targetRotationYRef = useRef(0);
 
   const dragStartXRef = useRef(0);
   const dragStartYRef = useRef(0);
@@ -274,7 +275,7 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
       const elapsed = clock.getElapsedTime();
 
       // 1. Slow automatic rotation when idle
-      if (!isDraggingRef.current) {
+      if (!isDraggingRef.current && hasEnteredRef.current) {
         if (!isHoveringRef.current) {
           targetRotationYRef.current += 0.08;
         } else {
@@ -362,6 +363,30 @@ const ExperienceCube = ({ sectionRef }: ExperienceCubeProps) => {
       renderer.dispose();
     };
   }, []);
+
+  // Reset rotation and start auto-rotation when the section enters view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          targetRotationYRef.current = 0;
+          rotationYRef.current = 0;
+          targetRotationXRef.current = -15;
+          rotationXRef.current = -15;
+          hasEnteredRef.current = true;
+        } else {
+          hasEnteredRef.current = false;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [sectionRef]);
 
   // --- Drag Interactions ---
   const handlePointerDown = (e: React.PointerEvent) => {

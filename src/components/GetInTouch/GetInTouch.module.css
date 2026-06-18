@@ -312,3 +312,13 @@
     font-size: 14px;
   }
 }
+
+.errorMessage {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  text-align: left;
+}
+

@@ -63,8 +63,3 @@ body {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
-
-/* Hide native cursor globally when custom cursor is active */
-.custom-cursor-active, .custom-cursor-active * {
-  cursor: none !important;
-}

@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, visible }) => {
         
         <MagneticWrapper strength={0.25}>
           <a 
-            href="/resume.pdf" 
+            href="/ASMI-S-RESUME.pdf" 
             target="_blank" 
             rel="noopener noreferrer" 
             className={styles.resumeBtn}

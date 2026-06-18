@@ -14,12 +14,13 @@ const TechUniverse = dynamic(() => import("@/components/TechUniverse/TechUnivers
 const Work = dynamic(() => import("@/components/Work/Work"), { ssr: false });
 const Education = dynamic(() => import("@/components/Education/Education"), { ssr: false });
 const SocialDock = dynamic(() => import("@/components/SocialDock/SocialDock"), { ssr: false });
+const EmailDock = dynamic(() => import("@/components/EmailDock/EmailDock"), { ssr: false });
 const CustomCursor = dynamic(() => import("@/components/CustomCursor/CustomCursor"), { ssr: false });
 const GetInTouch = dynamic(() => import("@/components/GetInTouch/GetInTouch"), { ssr: false });
-const Navbar = dynamic(() => import("@/components/Navbar/Navbar"), { ssr: false });
 
 export default function Home() {
-  const unifiedRef = useRef<HTMLDivElement>(null);
+  const deckUnifiedRef = useRef<HTMLDivElement>(null);
+  const projectsUnifiedRef = useRef<HTMLDivElement>(null);
   const deckRef = useRef<HTMLDivElement>(null);
   const experienceSectionRef = useRef<HTMLDivElement>(null);
   const projectsSectionRef = useRef<HTMLDivElement>(null);
@@ -28,127 +29,70 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
 
-  const scrollToSection = (section: string) => {
-    if (typeof window === "undefined") return;
-
-    const trigger = ScrollTrigger.getById("unified-flow-trigger");
-    if (!trigger) {
-      const el = document.getElementById(section);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-      return;
-    }
-
-    const start = trigger.start;
-    const end = trigger.end;
-    const range = end - start;
-
-    if (section === "about") {
-      window.scrollTo({
-        top: start + range * (0.1 / 4.65),
-        behavior: "smooth"
-      });
-    } else if (section === "skills") {
-      window.scrollTo({
-        top: start + range * (0.85 / 4.65),
-        behavior: "smooth"
-      });
-    } else if (section === "projects") {
-      window.scrollTo({
-        top: start + range * (2.6 / 4.65),
-        behavior: "smooth"
-      });
-    } else if (section === "experience") {
-      const el = experienceSectionRef.current;
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: top,
-          behavior: "smooth"
-        });
-      }
-    } else if (section === "contact") {
-      const el = document.getElementById("get-in-touch-portal");
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: top,
-          behavior: "smooth"
-        });
-      }
-    }
-  };
-
   useEffect(() => {
     if (!isPreloaderComplete) return; // Wait for preloader to complete
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      const unified = unifiedRef.current;
+      const deckUnified = deckUnifiedRef.current;
+      const projectsUnified = projectsUnifiedRef.current;
       const deck = deckRef.current;
       const projectsSection = projectsSectionRef.current;
       const projectsFlex = projectsFlexRef.current;
 
-      if (!unified || !deck || !projectsSection || !projectsFlex) return;
+      if (deckUnified && deck) {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: deckUnified,
+            start: "top top",
+            end: () => `+=${window.innerHeight * 2.2}`, // Pinned duration for 3 cards stack
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true,
+            id: "deck-trigger",
+          },
+        }).to({}, {
+          duration: 1,
+          onUpdate: function () {
+            setScrollProgress(this.progress());
+          },
+        });
+      }
 
-      const getScrollAmount = () => {
-        return projectsFlex.scrollWidth - window.innerWidth;
-      };
+      if (projectsUnified && projectsSection && projectsFlex) {
+        const getScrollAmount = () => {
+          return projectsFlex.scrollWidth - window.innerWidth;
+        };
 
-      // Set initial state of projects section to be translated out of view (on the right)
-      gsap.set(projectsSection, { x: "100vw" });
+        // Ensure projects section starts at 0vw horizontal offset (not translated since it's naturally scrolled)
+        gsap.set(projectsSection, { x: "0vw" });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: unified,
-          start: "top top",
-          end: () => `+=${2 * window.innerHeight + getScrollAmount()}`,
-          scrub: 1,
-          pin: true,
-          invalidateOnRefresh: true,
-          id: "unified-flow-trigger",
-        },
-      });
-
-      // 1. Cards Stack Transition: Map the first unit of scroll to cards progress (0 to 1)
-      tl.to({}, {
-        duration: 1,
-        onUpdate: function () {
-          setScrollProgress(this.progress());
-        },
-      });
-
-      // 2. Section Transition: Slide the deck out to the left and projects in from the right
-      tl.to(deck, {
-        x: "-100vw",
-        opacity: 0,
-        ease: "power2.inOut",
-        duration: 1,
-      }, "+=0.15");
-
-      tl.to(projectsSection, {
-        x: "0vw",
-        ease: "power2.inOut",
-        duration: 1,
-      }, "<"); // start at the same time
-
-      // 3. Projects Horizontal Scroll
-      tl.to(projectsFlex, {
-        x: () => -getScrollAmount(),
-        ease: "none",
-        duration: 2.5,
-      });
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: projectsUnified,
+            start: "top top",
+            end: () => `+=${getScrollAmount()}`, // Horizontal scrolling range
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true,
+            id: "projects-trigger",
+          },
+        }).to(projectsFlex, {
+          x: () => -getScrollAmount(),
+          ease: "none",
+        });
+      }
     });
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getById("unified-flow-trigger")?.kill();
+      ScrollTrigger.getById("deck-trigger")?.kill();
+      ScrollTrigger.getById("projects-trigger")?.kill();
     };
   }, [isPreloaderComplete]);
 
-  const activeIndex = scrollProgress < 0.5 ? 0 : 1;
+  const activeIndex = scrollProgress < 0.33 ? 0 : scrollProgress < 0.66 ? 1 : 2;
 
   const getCardStyle = (index: number) => {
     const diff = activeIndex - index;
@@ -163,8 +107,10 @@ export default function Home() {
       };
     } else if (diff > 0) {
       // Card is in the background stack (previous card)
+      // Fade out previous cards completely when Card 3 (activeIndex = 2) is active
+      const isCard3Active = activeIndex === 2;
       return {
-        opacity: 0.9 - diff * 0.15,
+        opacity: isCard3Active ? 0 : 0.9 - diff * 0.15,
         zIndex: 30 - diff * 10,
         transform: `translate3d(0, ${-diff * 25}px, ${-diff * 50}px) scale(${1 - diff * 0.04})`,
         pointerEvents: "none" as const,
@@ -190,17 +136,19 @@ export default function Home() {
         <CustomCursor />
       </div>
 
-      <Navbar onNavigate={scrollToSection} visible={isPreloaderComplete} />
-
       <div id="social-dock-portal">
         {isPreloaderComplete && (
-          <SocialDock 
-            githubUser="asmi-shetty" 
-            linkedinUser="asmi-shetty" 
-            leetcodeUser="asmi-shetty" 
-            instagramUser="asmi-shetty"
-            twitterUser="asmi-shetty"
-          />
+          <>
+            <SocialDock 
+              githubUser="asmi-shetty" 
+              linkedinUser="asmi-shetty" 
+              instagramUser="asmi-shetty"
+              twitterUser="asmi-shetty"
+            />
+            <EmailDock 
+              email="asmishetty010@gmail.com"
+            />
+          </>
         )}
       </div>
 
@@ -213,18 +161,16 @@ export default function Home() {
       >
         <VideoIntro videoSrc="/hero.mp4" startEntrance={isPreloaderComplete} />
 
-        {/* Unified Scroll Flow Section */}
-        <div ref={unifiedRef} className={styles.unifiedSection}>
-          
-          {/* Part 1: Cards Stacking Deck */}
-          <section ref={deckRef} id="about" className={styles.deckSection}>
+        {/* Part 1: Cards Stacking Deck (Unified Pinned Section) */}
+        <div ref={deckUnifiedRef} className={styles.unifiedSection}>
+          <section ref={deckRef} id="work" className={styles.deckSection}>
             <div className={styles.stickyContainer}>
               <div className={styles.deckInner}>
                 <div className={styles.cardStack}>
 
                   {/* Card 1: WHO I AM */}
                   <div className={styles.cardWrapper} style={getCardStyle(0)}>
-                    <MagneticWrapper range={220} strength={0.06}>
+                    <MagneticWrapper range={220} strength={0.06} style={{ width: "100%", height: "100%" }}>
                       <div className={styles.card}>
                         <span className={styles.cardHeader}>ABOUT - PROFILE</span>
                         <h3 className={`${styles.cardTitle} spotlight-text`}>WHO I AM</h3>
@@ -244,7 +190,7 @@ export default function Home() {
 
                   {/* Card 2: TECHNICAL SKILLS */}
                   <div className={styles.cardWrapper} style={getCardStyle(1)}>
-                    <MagneticWrapper range={220} strength={0.06}>
+                    <MagneticWrapper range={220} strength={0.06} style={{ width: "100%", height: "100%" }}>
                       <div className={styles.card}>
                         <span className={styles.cardHeader}>ABOUT - ARSENAL</span>
                         <h3 className={`${styles.cardTitle} spotlight-text`}>TECHNICAL SKILLS</h3>
@@ -309,21 +255,26 @@ export default function Home() {
                   </MagneticWrapper>
                 </div>
 
+                  {/* Card 3: MY TECH STACK */}
+                  <div className={styles.cardWrapper} style={getCardStyle(2)}>
+                    <div className={styles.card} style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column", position: "relative", background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
+                      <TechUniverse showHeader={true} />
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
           </section>
+        </div>
 
-          {/* Part 2: Featured Projects */}
+        {/* Part 2: Featured Projects (Unified Pinned Section) */}
+        <div ref={projectsUnifiedRef} className={styles.unifiedSection}>
           <Work sectionRef={projectsSectionRef} flexRef={projectsFlexRef} />
-
         </div>
 
         {/* Part 3: Interactive Holographic Experience (placed outside to scroll naturally) */}
         <ExperienceCube sectionRef={experienceSectionRef} />
-
-        {/* Part 4: Tech Stack Universe */}
-        <TechUniverse />
 
         {/* Part 5: Education Details */}
         <Education />

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useMousePosition } from "./useMousePosition";
-import ParticleTrail from "./ParticleTrail";
 import styles from "./CustomCursor.module.css";
 
 export const CustomCursor: React.FC = () => {
@@ -41,10 +40,6 @@ export const CustomCursor: React.FC = () => {
 
   useEffect(() => {
     setMounted(true);
-    document.documentElement.classList.add("custom-cursor-active");
-    return () => {
-      document.documentElement.classList.remove("custom-cursor-active");
-    };
   }, []);
 
   useEffect(() => {
@@ -180,32 +175,6 @@ export const CustomCursor: React.FC = () => {
             y: spotlightY,
             width: isHovered ? 380 : 250,
             height: isHovered ? 380 : 250,
-          }}
-        />
-      </div>
-
-      {/* Foreground Interactive Cursor Layer (Z-index 99999 - above all) */}
-      <div className={styles.cursorContainer}>
-        {/* Canvas Particle Trail */}
-        <ParticleTrail
-          mouseX={mouseX}
-          mouseY={mouseY}
-          smoothX={smoothX}
-          smoothY={smoothY}
-        />
-
-        {/* Core Glowing Orb */}
-        <motion.div
-          className={styles.orb}
-          style={{
-            x: smoothX,
-            y: smoothY,
-            width: orbSize,
-            height: orbSize,
-            opacity: orbOpacity,
-            rotate: rotateAngle,
-            scaleX: stretchScaleX,
-            scaleY: stretchScaleY,
           }}
         />
       </div>

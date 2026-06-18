@@ -14,7 +14,6 @@ interface SocialItem {
 interface SocialDockProps {
   githubUser?: string;
   linkedinUser?: string;
-  leetcodeUser?: string;
   instagramUser?: string;
   twitterUser?: string;
 }
@@ -22,7 +21,6 @@ interface SocialDockProps {
 export const SocialDock: React.FC<SocialDockProps> = ({
   githubUser = "yourusername",
   linkedinUser = "yourusername",
-  leetcodeUser = "yourusername",
   instagramUser = "yourusername",
   twitterUser = "yourusername",
 }) => {
@@ -49,18 +47,7 @@ export const SocialDock: React.FC<SocialDockProps> = ({
         </svg>
       ),
     },
-    {
-      name: "LeetCode",
-      url: `https://leetcode.com/${leetcodeUser}`,
-      ariaLabel: "Visit LeetCode Profile",
-      icon: (
-        <svg viewBox="0 0 24 24" className={styles.svgIcon}>
-          <path d="M16.102 17.93l-2.69 2.607c-.45.437-1.18.437-1.63 0l-7.332-7.107a2.962 2.962 0 0 1 0-4.19l7.332-7.107c.45-.437 1.18-.437 1.63 0l2.69 2.607c.45.436.45 1.145 0 1.582L10.748 11.58c-.22.213-.22.56 0 .774l5.354 5.205c.45.437.45 1.145 0 1.582z"></path>
-          <path d="M22 11.25a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-.75.75h-3.25a.75.75 0 0 1-.75-.75v-1a.75.75 0 0 1 .75-.75H22z"></path>
-          <path d="M18 7.25a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-.75.75h-3.25a.75.75 0 0 1-.75-.75V8a.75.75 0 0 1 .75-.75H18z"></path>
-        </svg>
-      ),
-    },
+
     {
       name: "Instagram",
       url: `https://instagram.com/${instagramUser}`,

@@ -26,6 +26,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
   const lastName = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const soundHintRef = useRef<HTMLDivElement>(null);
+  const resumeContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -55,7 +56,8 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           taglineRef.current,
           firstName.current,
           lastName.current,
-          subtitleRef.current
+          subtitleRef.current,
+          resumeContainerRef.current
         ].filter(Boolean);
 
         // Set initial states immediately to avoid flash
@@ -110,6 +112,14 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           );
         }
 
+        if (resumeContainerRef.current) {
+          tl.to(
+            resumeContainerRef.current,
+            { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+            "-=0.7"
+          );
+        }
+
         // scroll indicator animation removed
 
         setIsLoaded(true);
@@ -139,23 +149,59 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
     const bg = bgVideoRef.current;
     if (!v || !bg || !startEntrance) return;
 
-    v.muted = isMuted;
-    bg.muted = isMuted;
+    const tryPlayUnmuted = () => {
+      v.muted = false;
+      bg.muted = true;
+      setIsMuted(false);
+      v.play()
+        .then(() => {
+          bg.play().catch(() => {});
+          setIsPlaying(true);
+          cleanup();
+        })
+        .catch((error) => {
+          console.warn("Unmuted playback failed, falling back to muted:", error);
+          v.muted = true;
+          bg.muted = true;
+          setIsMuted(true);
+          v.play().catch(() => {});
+          bg.play().catch(() => {});
+        });
+    };
 
-    const promise = v.play();
-    if (promise !== undefined) {
-      promise.then(() => {
+    const cleanup = () => {
+      window.removeEventListener("pointerdown", tryPlayUnmuted);
+      window.removeEventListener("keydown", tryPlayUnmuted);
+      window.removeEventListener("click", tryPlayUnmuted);
+    };
+
+    // First attempt: try playing unmuted
+    v.muted = false;
+    bg.muted = true;
+    setIsMuted(false);
+
+    v.play()
+      .then(() => {
         bg.play().catch(() => {});
         setIsPlaying(true);
-      }).catch((error) => {
-        console.warn("Unmuted autoplay prevented by browser. Falling back to muted autoplay:", error);
+      })
+      .catch((error) => {
+        console.warn("Autoplay with sound was blocked. Falling back to muted autoplay and waiting for user interaction to unmute:", error);
+        // Play muted so user gets visual intro
         v.muted = true;
         bg.muted = true;
         setIsMuted(true);
-        v.play().catch(() => {});
-        bg.play().catch(() => {});
+        v.play().then(() => {
+          bg.play().catch(() => {});
+        }).catch(() => {});
+
+        // Listen for first interaction to activate sound
+        window.addEventListener("pointerdown", tryPlayUnmuted);
+        window.addEventListener("keydown", tryPlayUnmuted);
+        window.addEventListener("click", tryPlayUnmuted);
       });
-    }
+
+    return cleanup;
   }, [startEntrance]);
 
   // Typewriter effect logic
@@ -197,7 +243,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
     if (!v || !bg) return;
     const next = !isMuted;
     v.muted = next;
-    bg.muted = next;
+    bg.muted = true;
     setIsMuted(next);
     setShowSoundHint(false);
   }, [isMuted]);
@@ -232,7 +278,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
           className={styles.bgVideo}
           src={videoSrc}
           autoPlay
-          muted={isMuted}
+          muted
           playsInline
           preload="auto"
           aria-hidden="true"
@@ -285,6 +331,20 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ videoSrc, startEntrance = true 
             <span>{currentText}</span>
             <span className={styles.cursor} />
           </p>
+
+          <div ref={resumeContainerRef} className={styles.heroResumeContainer}>
+            <MagneticWrapper strength={0.35}>
+              <a
+                href="/ASMI-S-RESUME.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.heroResumeBtn}
+                data-cursor="hover"
+              >
+                RESUME
+              </a>
+            </MagneticWrapper>
+          </div>
         </div>
       </div>
 

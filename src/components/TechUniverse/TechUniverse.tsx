@@ -59,7 +59,11 @@ interface SpherePhysics {
   phase: number;
 }
 
-const TechUniverse = () => {
+interface TechUniverseProps {
+  showHeader?: boolean;
+}
+
+const TechUniverse: React.FC<TechUniverseProps> = ({ showHeader = true }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const interactionRef = useRef<HTMLDivElement>(null);
   
@@ -586,13 +590,13 @@ const TechUniverse = () => {
         <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
       </div>
 
-
-
       {/* Floating Header */}
-      <div className={styles.hudHeader}>
-        <span className={styles.subtitle}>TECHNOLOGY SWARM</span>
-        <h2 className={`${styles.title} spotlight-text`}>My Tech Stack</h2>
-      </div>
+      {showHeader && (
+        <div className={styles.hudHeader}>
+          <span className={styles.subtitle}>TECHNOLOGY SWARM</span>
+          <h2 className={`${styles.title} spotlight-text`}>My Tech Stack</h2>
+        </div>
+      )}
 
       {/* Capture clicks and cursor movements */}
       <div 

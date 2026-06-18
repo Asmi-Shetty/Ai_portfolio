@@ -1,0 +1,81 @@
+/* EmailDock.module.css */
+
+.dock {
+  position: fixed;
+  z-index: 9990; /* High z-index but below Custom Cursor */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Floating animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Position and alignment */
+@media (min-width: 769px) {
+  .dock {
+    right: 28px;
+    bottom: 0px;
+    gap: 24px;
+    animation: float 5s ease-in-out 0.5s infinite; /* offset delay from social dock */
+  }
+}
+
+/* Vertical Email Link */
+.emailLink {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: #e8652a;
+  text-decoration: none;
+  writing-mode: vertical-rl;
+  text-shadow: 0 0 4px rgba(232, 101, 42, 0.25);
+  transition: color 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.emailLink:hover {
+  color: #f5893a;
+  filter: drop-shadow(0 0 6px rgba(232, 101, 42, 0.6));
+}
+
+/* Thin vertical accent line */
+.line {
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(to bottom, #e8652a 0%, rgba(232, 101, 42, 0.15) 100%);
+  box-shadow: 0 0 10px rgba(232, 101, 42, 0.3);
+  will-change: transform;
+}
+
+/* Tablet Resizing */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .dock {
+    right: 24px;
+  }
+  .emailLink {
+    font-size: 12px;
+  }
+  .line {
+    height: 100px;
+  }
+}
+
+/* Hide on mobile (left/center social dock is enough) */
+@media (max-width: 768px) {
+  .dock {
+    display: none;
+  }
+}
